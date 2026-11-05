@@ -4,3 +4,8 @@
 @media(max-width:420px){.category-grid{grid-template-columns:1fr 1fr}.category-card{min-height:135px}.hero-actions .button{width:100%}.brand-name{font-size:18px}}
 
 .footer-instagram{display:inline-flex;align-items:center;gap:9px;margin:10px 0 4px;color:var(--purple);font-weight:900;font-size:14px;transition:color .2s,transform .2s}.footer-instagram svg{width:25px;height:25px}.footer-instagram:hover{color:var(--orange);transform:translateY(-2px)}
+
+/* Instagram footer icon: fixed dimensions to prevent SVG from expanding */
+.footer-instagram{display:inline-flex!important;align-items:center!important;gap:9px!important;width:max-content!important;max-width:100%;}
+.footer-instagram svg{display:block!important;width:24px!important;height:24px!important;min-width:24px!important;max-width:24px!important;min-height:24px!important;max-height:24px!important;flex:0 0 24px!important;}
+.footer-instagram span{font-size:14px!important;line-height:1.4!important;}
