@@ -157,3 +157,8 @@
 
 .brand img.brand-logo-image{width:42px!important;height:42px!important;max-width:42px!important;min-width:42px!important;object-fit:contain!important}
 .brand-footer img.brand-logo-image{width:34px!important;height:34px!important;max-width:34px!important;min-width:34px!important}
+
+/* Selected CB/% shopping bag logo dimensions */
+.brand img.brand-logo-image{width:58px!important;height:58px!important;min-width:58px!important;max-width:58px!important;object-fit:contain!important;flex:0 0 58px!important}
+.brand-footer img.brand-logo-image{width:44px!important;height:44px!important;min-width:44px!important;max-width:44px!important;flex:0 0 44px!important}
+@media(max-width:800px){.brand img.brand-logo-image{width:48px!important;height:48px!important;min-width:48px!important;max-width:48px!important;flex-basis:48px!important}}
