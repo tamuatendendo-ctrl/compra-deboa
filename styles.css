@@ -70,3 +70,12 @@
 .category-filter-card:focus-visible,.filter-pill:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
 .category-subtitle{font-size:12px;color:var(--muted);line-height:1.4;margin-top:5px;max-width:90%}
 @media(max-width:700px){.catalog-controls{padding:14px}.store-filter select{width:100%;min-width:0}.store-filter{width:100%}.filter-pill{padding:9px 11px}.category-subtitle{font-size:11px}}
+
+
+/* Vitrine: cards de produtos sem foto promocional */
+.product-placeholder{min-height:330px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:radial-gradient(circle at 50% 35%,#fff7d8 0,#f8eaff 55%,#e7d7ff 100%);overflow:hidden}
+.product-placeholder:before,.product-placeholder:after{content:"";position:absolute;border-radius:50%;border:1px solid #4b0d9118;width:260px;height:260px}
+.product-placeholder:after{width:190px;height:190px}
+.product-placeholder span{font-size:92px;filter:drop-shadow(0 10px 8px #30065f18);z-index:1}
+.product-placeholder small{font-size:10px;letter-spacing:1.5px;font-weight:900;color:var(--purple);background:#ffffffc9;padding:8px 12px;border-radius:999px;z-index:1}
+@media(max-width:700px){.product-placeholder{min-height:240px}.product-placeholder span{font-size:76px}}
