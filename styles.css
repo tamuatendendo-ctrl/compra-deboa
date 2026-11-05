@@ -10,10 +10,14 @@
 .footer-instagram svg{display:block!important;width:24px!important;height:24px!important;min-width:24px!important;max-width:24px!important;min-height:24px!important;max-height:24px!important;flex:0 0 24px!important;}
 .footer-instagram span{font-size:14px!important;line-height:1.4!important;}
 
-/* Footer: brand on the left, Instagram on the right */
+/* Footer: social links stacked on the right, TikTok directly below Instagram */
 .footer{position:relative;}
 .footer-instagram{position:absolute!important;right:max(5.5%,calc((100% - 1180px)/2));top:42px;margin:0!important;}
-@media(max-width:800px){.footer-instagram{position:static!important;margin:12px 0 8px!important;}}
+.footer-tiktok{top:78px!important;}
+@media(max-width:800px){
+  .footer-instagram,.footer-tiktok{position:static!important;margin:12px 0 8px!important;}
+  .footer-tiktok{display:flex!important;}
+}
 
 /* Robust footer layout: Instagram aligned to the right on desktop */
 @media(min-width:801px){
