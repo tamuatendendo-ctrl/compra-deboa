@@ -7,7 +7,6 @@ if (menuButton && nav) {
     menuButton.setAttribute("aria-expanded", String(isOpen));
     menuButton.setAttribute("aria-label", isOpen ? "Fechar menu" : "Abrir menu");
   });
-
   nav.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
       nav.classList.remove("open");
@@ -19,58 +18,109 @@ if (menuButton && nav) {
 const year = document.querySelector("#year");
 if (year) year.textContent = new Date().getFullYear();
 
-
-// Filtros da vitrine: cada produto pode pertencer a várias categorias.
+// Catálogo: filtro + paginação (16 produtos por página).
 const categoryButtons = document.querySelectorAll("[data-category].filter-pill");
 const categoryCards = document.querySelectorAll(".category-filter-card");
 const storeSelect = document.querySelector("#store-filter");
-const products = document.querySelectorAll(".catalog-product");
+const products = Array.from(document.querySelectorAll(".catalog-product"));
 const emptyState = document.querySelector("#catalog-empty");
 const catalogStatus = document.querySelector("#catalog-status");
+const pagination = document.querySelector("#catalog-pagination");
 const resetFilters = document.querySelector("#reset-filters");
+const pageSize = 16;
 let selectedCategory = "all";
+let currentPage = 1;
 
-function filterCatalog() {
+function getFilteredProducts() {
   const selectedStore = storeSelect ? storeSelect.value : "all";
-  let visibleCount = 0;
-
-  products.forEach((product) => {
-    const categories = (product.dataset.categories || "").split(/\s+/);
+  return products.filter((product) => {
+    const categories = (product.dataset.categories || "").split(/\s+/).filter(Boolean);
     const categoryMatch = selectedCategory === "all" || categories.includes(selectedCategory);
     const storeMatch = selectedStore === "all" || product.dataset.store === selectedStore;
-    const visible = categoryMatch && storeMatch;
-    product.hidden = !visible;
-    if (visible) visibleCount += 1;
+    return categoryMatch && storeMatch;
+  });
+}
+
+function renderPagination(totalPages) {
+  if (!pagination) return;
+  pagination.innerHTML = "";
+  if (totalPages <= 1) {
+    pagination.hidden = true;
+    return;
+  }
+  pagination.hidden = false;
+
+  const addButton = (label, page, options = {}) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "pagination-button" + (options.active ? " active" : "");
+    button.textContent = label;
+    button.disabled = Boolean(options.disabled);
+    if (options.active) button.setAttribute("aria-current", "page");
+    button.setAttribute("aria-label", options.ariaLabel || label);
+    button.addEventListener("click", () => {
+      currentPage = page;
+      renderCatalog();
+      document.querySelector("#ofertas")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    pagination.appendChild(button);
+  };
+
+  addButton("‹", Math.max(1, currentPage - 1), {disabled:currentPage === 1, ariaLabel:"Página anterior"});
+  for (let page = 1; page <= totalPages; page++) {
+    addButton(String(page), page, {active:page === currentPage, ariaLabel:"Página " + page});
+  }
+  addButton("›", Math.min(totalPages, currentPage + 1), {disabled:currentPage === totalPages, ariaLabel:"Próxima página"});
+  const info = document.createElement("span");
+  info.className = "pagination-info";
+  info.textContent = "Página " + currentPage + " de " + totalPages;
+  pagination.appendChild(info);
+}
+
+function renderCatalog() {
+  const filtered = getFilteredProducts();
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  if (currentPage > totalPages) currentPage = totalPages;
+  const start = (currentPage - 1) * pageSize;
+  const pageProducts = new Set(filtered.slice(start, start + pageSize));
+
+  products.forEach((product) => {
+    product.hidden = !pageProducts.has(product);
   });
 
-  if (emptyState) emptyState.hidden = visibleCount > 0;
+  if (emptyState) emptyState.hidden = filtered.length > 0;
   if (catalogStatus) {
-    catalogStatus.textContent = visibleCount === 1 ? "1 produto disponível" : `${visibleCount} produtos disponíveis`;
+    catalogStatus.textContent = filtered.length === 1
+      ? "1 produto encontrado"
+      : filtered.length + " produtos encontrados";
   }
+  renderPagination(totalPages);
 }
 
 function setCategory(category) {
   selectedCategory = category;
+  currentPage = 1;
   categoryButtons.forEach((button) => {
     const active = button.dataset.category === category;
     button.classList.toggle("active", active);
     button.setAttribute("aria-pressed", String(active));
   });
-  filterCatalog();
-  const offersSection = document.querySelector("#ofertas");
-  if (offersSection) offersSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  renderCatalog();
+  document.querySelector("#ofertas")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-categoryButtons.forEach((button) => {
-  button.addEventListener("click", () => setCategory(button.dataset.category));
-});
-categoryCards.forEach((button) => {
-  button.addEventListener("click", () => setCategory(button.dataset.category));
-});
-if (storeSelect) storeSelect.addEventListener("change", filterCatalog);
+categoryButtons.forEach((button) => button.addEventListener("click", () => setCategory(button.dataset.category)));
+categoryCards.forEach((button) => button.addEventListener("click", () => setCategory(button.dataset.category)));
+if (storeSelect) storeSelect.addEventListener("change", () => { currentPage = 1; renderCatalog(); });
 if (resetFilters) resetFilters.addEventListener("click", () => {
-  setCategory("all");
+  selectedCategory = "all";
+  currentPage = 1;
   if (storeSelect) storeSelect.value = "all";
-  filterCatalog();
+  categoryButtons.forEach((button) => {
+    const active = button.dataset.category === "all";
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+  renderCatalog();
 });
-filterCatalog();
+renderCatalog();
