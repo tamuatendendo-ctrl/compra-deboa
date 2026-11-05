@@ -107,3 +107,11 @@
 @media(max-width:1050px){.catalog-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media(max-width:760px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}.catalog-grid .offer-visual,.catalog-grid .product-placeholder{height:165px;min-height:165px;flex-basis:165px}.catalog-grid .offer-info{padding:12px}.catalog-grid .offer-info h3{font-size:14px;min-height:75px}.catalog-grid .offer-price strong{font-size:22px}.catalog-grid .offer-button{font-size:10px;padding:10px 7px}}
 @media(max-width:390px){.catalog-grid{gap:8px!important}.catalog-grid .offer-info{padding:10px}.catalog-grid .offer-info h3{font-size:13px}.catalog-grid .offer-market{font-size:8px}}
+
+
+/* Fotos reais retornadas pelo catálogo do Mercado Livre */
+.product-image-area{position:relative;background:#f4eaff}
+.product-image-area .real-product-image{display:block;width:100%;height:100%;min-height:205px;object-fit:contain;padding:12px;background:#fff}
+.product-image-area .offer-discount{position:absolute;top:10px;left:10px;z-index:3}
+.catalog-grid .product-image-area .real-product-image{height:205px;min-height:205px}
+@media(max-width:760px){.catalog-grid .product-image-area .real-product-image{height:165px;min-height:165px;padding:8px}}
