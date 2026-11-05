@@ -27,3 +27,27 @@
   .footer{display:block;}
   .footer>.footer-instagram{position:static!important;}
 }
+
+/* Affiliate offers catalog */
+.offers{padding-top:70px;padding-bottom:70px}
+.offers-grid{display:grid;grid-template-columns:minmax(0,720px);justify-content:center}
+.offer-card{display:grid;grid-template-columns:1fr 1fr;overflow:hidden;border:1px solid #eee6f7;border-radius:24px;background:#fff;box-shadow:0 14px 40px #30065f12}
+.offer-visual{min-height:330px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(circle at 50% 40%,#f9e9ff 0,#f0e5ff 48%,#e4d2ff 100%)}
+.offer-discount{position:absolute;top:18px;left:18px;background:var(--orange);color:#fff;font-size:12px;font-weight:900;padding:9px 13px;border-radius:999px;z-index:2}
+.offer-tag{position:absolute;bottom:16px;left:18px;background:var(--purple);color:#fff;font-size:10px;font-weight:900;letter-spacing:.8px;padding:8px 11px;border-radius:999px}
+.creatine-pack{width:190px;height:255px;background:linear-gradient(145deg,#252329,#080808 75%);border-radius:16px 16px 22px 22px;box-shadow:12px 18px 0 #26074b25,inset 0 0 0 2px #ffffff15;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;transform:rotate(-4deg);position:relative;padding:18px 12px;text-align:center}
+.creatine-pack:before{content:"";position:absolute;top:-12px;left:10px;right:10px;height:24px;border-radius:8px;background:linear-gradient(#444,#111);border:1px solid #666}
+.creatine-brand{font-size:13px;font-weight:900;letter-spacing:2px;color:#ff3535;margin-top:7px}
+.creatine-pack strong{font-size:30px;letter-spacing:-1px;margin:18px 0 4px;color:#fff}
+.creatine-sub{font-size:9px;letter-spacing:1.4px;color:#ddd}
+.creatine-pack b{font-size:26px;color:#ff3d3d;margin-top:15px}
+.creatine-pack small{font-size:9px;letter-spacing:2px;color:#eee;margin-top:4px}
+.offer-info{padding:28px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.offer-market{font-size:10px;font-weight:900;letter-spacing:1.2px;color:var(--muted)}
+.offer-info h3{font-size:23px;line-height:1.2;letter-spacing:-.5px;margin:12px 0}
+.offer-rating{font-size:13px;color:#e49a00;font-weight:900}.offer-rating span{color:var(--muted);font-weight:600}
+.offer-price{display:flex;flex-direction:column;margin:15px 0 6px}.offer-price del{color:#8b8197;font-size:14px}.offer-price strong{font-size:34px;line-height:1.2;color:var(--purple);font-weight:900}
+.offer-disclaimer{font-size:11px;line-height:1.5;color:var(--muted);margin:8px 0 16px}
+.offer-button{font-size:13px;padding:13px 17px}
+.affiliate-note{font-size:11px;line-height:1.6;color:var(--muted);text-align:center;max-width:720px;margin:18px auto 0}
+@media(max-width:700px){.offer-card{grid-template-columns:1fr}.offer-visual{min-height:290px}.offer-info{padding:24px}.offer-info h3{font-size:21px}.offers{padding-top:55px;padding-bottom:55px}}
