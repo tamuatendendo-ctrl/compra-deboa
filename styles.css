@@ -150,3 +150,7 @@
   .catalog-grid .product-image-area{height:165px;min-height:165px;flex-basis:165px}
   .catalog-grid .product-image-area .real-product-image{padding:8px}
 }
+
+/* Logo Compra de Boa: sacola + CB + selo de desconto */
+.brand-logo-image{display:block;width:42px;height:42px;object-fit:contain;flex:0 0 auto}
+.brand-footer .brand-logo-image{width:34px;height:34px}
