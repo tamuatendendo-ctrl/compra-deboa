@@ -35,7 +35,7 @@ function filterCatalog() {
   let visibleCount = 0;
 
   products.forEach((product) => {
-    const categories = (product.dataset.categories || "").split(/\\s+/);
+    const categories = (product.dataset.categories || "").split(/\s+/);
     const categoryMatch = selectedCategory === "all" || categories.includes(selectedCategory);
     const storeMatch = selectedStore === "all" || product.dataset.store === selectedStore;
     const visible = categoryMatch && storeMatch;
