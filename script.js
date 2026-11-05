@@ -124,3 +124,33 @@ if (resetFilters) resetFilters.addEventListener("click", () => {
   renderCatalog();
 });
 renderCatalog();
+
+
+// Busca as imagens reais dos anúncios pela API pública do Mercado Livre.
+// Mantém o link afiliado original no botão de compra.
+document.querySelectorAll(".catalog-product[data-item-id]").forEach(async (card) => {
+  const itemId = card.dataset.itemId;
+  const area = card.querySelector(".product-image-area");
+  if (!itemId || !area) return;
+  try {
+    let response = await fetch("https://api.mercadolibre.com/items/" + encodeURIComponent(itemId));
+    if (!response.ok) response = await fetch("https://api.mercadolibre.com/products/" + encodeURIComponent(itemId));
+    if (!response.ok) throw new Error("API não retornou imagem");
+    const data = await response.json();
+    const picture = data.pictures?.[0]?.secure_url || data.pictures?.[0]?.url || data.thumbnail || data.picture;
+    if (!picture) throw new Error("Imagem não encontrada");
+    const img = document.createElement("img");
+    img.src = picture.replace(/^http:/, "https:");
+    img.alt = card.querySelector("h3")?.textContent || "Foto do produto";
+    img.loading = "lazy";
+    img.className = "real-product-image";
+    img.onerror = () => { img.remove(); };
+    area.replaceChildren(img);
+    const discount = document.createElement("span");
+    discount.className = "offer-discount";
+    discount.textContent = card.dataset.discount || "";
+    if (discount.textContent) area.appendChild(discount);
+  } catch (error) {
+    area.querySelector("small")?.replaceChildren(document.createTextNode("Imagem indisponível"));
+  }
+});
