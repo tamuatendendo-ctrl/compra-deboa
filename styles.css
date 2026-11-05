@@ -162,3 +162,18 @@
 .brand img.brand-logo-image{width:58px!important;height:58px!important;min-width:58px!important;max-width:58px!important;object-fit:contain!important;flex:0 0 58px!important}
 .brand-footer img.brand-logo-image{width:44px!important;height:44px!important;min-width:44px!important;max-width:44px!important;flex:0 0 44px!important}
 @media(max-width:800px){.brand img.brand-logo-image{width:48px!important;height:48px!important;min-width:48px!important;max-width:48px!important;flex-basis:48px!important}}
+
+/* Redes sociais do rodapé: Instagram e TikTok em linhas separadas */
+.footer > .footer-instagram,
+.footer > .footer-tiktok{
+  display:flex!important;
+  position:static!important;
+  width:max-content!important;
+  max-width:100%;
+  margin:10px 0 0!important;
+  align-items:center!important;
+  gap:9px!important;
+}
+.footer > .footer-tiktok{margin-top:8px!important;}
+.footer > .footer-instagram svg,
+.footer > .footer-tiktok svg{width:24px!important;height:24px!important;min-width:24px!important;max-width:24px!important;flex:0 0 24px!important;}
