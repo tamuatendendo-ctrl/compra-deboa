@@ -58,46 +58,76 @@
     <section class="section offers" id="ofertas">
       <div class="section-heading">
         <div><span class="eyebrow purple-eyebrow">Achados que valem a pena</span><h2>Ofertas em destaque</h2></div>
-        <p>Produtos selecionados para você aproveitar boas oportunidades.</p>
+        <p>Uma vitrine de produtos de diferentes lojas, organizada por categoria.</p>
       </div>
-      <div class="offers-grid">
-        <article class="offer-card">
+
+      <div class="catalog-controls" aria-label="Filtros do catálogo">
+        <div class="filter-group">
+          <span class="filter-label">Categoria</span>
+          <div class="filter-pills" role="group" aria-label="Filtrar por categoria">
+            <button class="filter-pill active" type="button" data-category="all">Todos</button>
+            <button class="filter-pill" type="button" data-category="eletronicos">Eletrônicos</button>
+            <button class="filter-pill" type="button" data-category="casa">Casa e decoração</button>
+            <button class="filter-pill" type="button" data-category="dia-a-dia">Dia a dia</button>
+            <button class="filter-pill" type="button" data-category="bem-estar">Saúde e bem-estar</button>
+            <button class="filter-pill" type="button" data-category="moda">Moda e acessórios</button>
+          </div>
+        </div>
+        <div class="filter-group store-filter">
+          <label class="filter-label" for="store-filter">Loja</label>
+          <select id="store-filter">
+            <option value="all">Todas as lojas</option>
+            <option value="mercado-livre">Mercado Livre</option>
+            <option value="amazon">Amazon</option>
+            <option value="shopee">Shopee</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="catalog-status" id="catalog-status" aria-live="polite">1 produto disponível</div>
+      <div class="offers-grid catalog-grid">
+        <article class="offer-card catalog-product" data-categories="dia-a-dia bem-estar" data-store="mercado-livre">
           <div class="offer-visual">
             <span class="offer-discount">56% OFF*</span>
-            <div class="creatine-pack" aria-label="Representação visual do produto">
+            <div class="creatine-pack" aria-label="Representação visual da embalagem da creatina Dark Lab">
               <span class="creatine-brand">DARK LAB</span>
               <strong>CREATINA</strong>
               <span class="creatine-sub">MONOHIDRATADA</span>
               <b>1 KG</b>
               <small>100% PURA</small>
             </div>
-            <span class="offer-tag">MAIS VENDIDO</span>
+            <span class="offer-tag">OFERTA EM DESTAQUE</span>
           </div>
           <div class="offer-info">
-            <span class="offer-market">MERCADO LIVRE · SUPLEMENTOS</span>
+            <span class="offer-market">MERCADO LIVRE · DIA A DIA / BEM-ESTAR</span>
             <h3>Creatina Monohidratada 1 kg — Dark Lab</h3>
-            <div class="offer-rating">★ 4,9/5 <span>· anúncio popular</span></div>
+            <div class="offer-rating">★ 4,9/5 <span>· avaliação do anúncio</span></div>
             <div class="offer-price"><del>R$ 159,90</del><strong>R$ 69,99</strong></div>
             <p class="offer-disclaimer">Preço e disponibilidade podem mudar. Confira as condições no Mercado Livre.</p>
             <a class="button button-yellow offer-button" href="https://meli.la/32GCfqq" target="_blank" rel="noopener noreferrer sponsored">Ver oferta no Mercado Livre <span>↗</span></a>
           </div>
         </article>
       </div>
-      <p class="affiliate-note">*Desconto informado no anúncio no momento da seleção. A Compra de Boa pode receber comissão por compras realizadas pelos links, sem custo adicional para você.</p>
+      <div class="catalog-empty" id="catalog-empty" hidden>
+        <strong>Nenhum produto nessa seleção ainda.</strong>
+        <p>Estamos adicionando novos achados. Experimente outra categoria ou loja.</p>
+        <button class="button button-purple" type="button" id="reset-filters">Ver todos os produtos</button>
+      </div>
+      <p class="affiliate-note">*Desconto e preço informados no anúncio no momento da seleção, sujeitos a alteração. A Compra de Boa pode receber comissão por compras realizadas pelos links, sem custo adicional para você.</p>
     </section>
 
     <section class="section categories" id="categorias">
       <div class="section-heading">
-        <div><span class="eyebrow purple-eyebrow">Encontre seu próximo achado</span><h2>O que você está procurando?</h2></div>
-        <p>Estamos preparando uma seleção de oportunidades para diferentes momentos e necessidades.</p>
+        <div><span class="eyebrow purple-eyebrow">Explore a vitrine</span><h2>Compre por categoria</h2></div>
+        <p>As categorias são da Compra de Boa — os produtos podem vir do Mercado Livre, Amazon ou outras lojas.</p>
       </div>
       <div class="category-grid">
-        <a class="category-card electronics" href="#acompanhe"><span class="category-icon">🎧</span><span class="category-title">Eletrônicos</span><span class="category-arrow">↗</span></a>
-        <a class="category-card home" href="#acompanhe"><span class="category-icon">🏠</span><span class="category-title">Casa & decoração</span><span class="category-arrow">↗</span></a>
-        <a class="category-card fashion" href="#acompanhe"><span class="category-icon">👟</span><span class="category-title">Moda & acessórios</span><span class="category-arrow">↗</span></a>
-        <a class="category-card beauty" href="#acompanhe"><span class="category-icon">✨</span><span class="category-title">Beleza & cuidados</span><span class="category-arrow">↗</span></a>
-        <a class="category-card daily" href="#acompanhe"><span class="category-icon">🧺</span><span class="category-title">Dia a dia</span><span class="category-arrow">↗</span></a>
-        <a class="category-card more" href="#acompanhe"><span class="category-icon">🎁</span><span class="category-title">Outros achados</span><span class="category-arrow">↗</span></a>
+        <button class="category-card electronics category-filter-card" type="button" data-category="eletronicos"><span class="category-icon">🎧</span><span class="category-title">Eletrônicos</span><span class="category-subtitle">Celulares, acessórios e gadgets</span><span class="category-arrow">↗</span></button>
+        <button class="category-card home category-filter-card" type="button" data-category="casa"><span class="category-icon">🏠</span><span class="category-title">Casa e decoração</span><span class="category-subtitle">Organização, cozinha e decoração</span><span class="category-arrow">↗</span></button>
+        <button class="category-card daily category-filter-card" type="button" data-category="dia-a-dia"><span class="category-icon">🧺</span><span class="category-title">Dia a dia</span><span class="category-subtitle">Achados úteis e práticos</span><span class="category-arrow">↗</span></button>
+        <button class="category-card beauty category-filter-card" type="button" data-category="bem-estar"><span class="category-icon">✨</span><span class="category-title">Saúde e bem-estar</span><span class="category-subtitle">Fitness e cuidados pessoais</span><span class="category-arrow">↗</span></button>
+        <button class="category-card fashion category-filter-card" type="button" data-category="moda"><span class="category-icon">👟</span><span class="category-title">Moda e acessórios</span><span class="category-subtitle">Roupas, tênis e acessórios</span><span class="category-arrow">↗</span></button>
+        <button class="category-card more category-filter-card" type="button" data-category="all"><span class="category-icon">🎁</span><span class="category-title">Todos os achados</span><span class="category-subtitle">Veja o catálogo completo</span><span class="category-arrow">↗</span></button>
       </div>
     </section>
 
