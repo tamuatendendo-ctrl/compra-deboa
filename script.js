@@ -139,6 +139,7 @@ document.querySelectorAll(".catalog-product[data-item-id]").forEach(async (card)
     const data = await response.json();
     const picture = data.pictures?.[0]?.secure_url || data.pictures?.[0]?.url || data.thumbnail || data.picture;
     if (!picture) throw new Error("Imagem não encontrada");
+    const discountText = area.querySelector(".offer-discount")?.textContent || "";
     const img = document.createElement("img");
     img.src = picture.replace(/^http:/, "https:");
     img.alt = card.querySelector("h3")?.textContent || "Foto do produto";
@@ -146,10 +147,12 @@ document.querySelectorAll(".catalog-product[data-item-id]").forEach(async (card)
     img.className = "real-product-image";
     img.onerror = () => { img.remove(); };
     area.replaceChildren(img);
-    const discount = document.createElement("span");
-    discount.className = "offer-discount";
-    discount.textContent = card.dataset.discount || "";
-    if (discount.textContent) area.appendChild(discount);
+    if (discountText) {
+      const discount = document.createElement("span");
+      discount.className = "offer-discount";
+      discount.textContent = discountText;
+      area.appendChild(discount);
+    }
   } catch (error) {
     area.querySelector("small")?.replaceChildren(document.createTextNode("Imagem indisponível"));
   }
