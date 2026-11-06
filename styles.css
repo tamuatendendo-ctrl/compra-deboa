@@ -187,3 +187,9 @@
 @media(max-width:800px){
   .footer>.footer-instagram,.footer>.footer-tiktok{display:flex!important;position:static!important;margin:12px 0 8px!important;}
 }
+
+
+/* Categoria especial Natal: verde no estado normal e vermelho quando selecionada */
+.filter-pill[data-category="natal"]{background:#16803c;color:#fff;border-color:#16803c}
+.filter-pill[data-category="natal"]:hover{background:#126b32;color:#fff;border-color:#126b32}
+.filter-pill[data-category="natal"].active{background:#d62828;color:#fff;border-color:#d62828}
