@@ -76,20 +76,20 @@
   }
   function queryIntent(query){
     const q=normalize(query);
-    if(/\\b(celular|smartphone|iphone|telefone)\\b/.test(q)) return "cellphone";
-    if(/\\b(tenis|sneaker|calcado|sapato)\\b/.test(q) && /\\b(academia|treino|fitness|esporte|corrida|musculacao)\\b/.test(q)) return "sports-shoe";
+    if(/\b(celular|smartphone|iphone|telefone)\b/.test(q)) return "cellphone";
+    if(/\b(tenis|sneaker|calcado|sapato)\b/.test(q) && /\b(academia|treino|fitness|esporte|corrida|musculacao)\b/.test(q)) return "sports-shoe";
     return "";
   }
   function intentMatch(data,intent){
     const title=normalize(data.title);
     if(intent==="cellphone"){
       // A busca por celular deve retornar celulares, não acessórios eletrônicos.
-      return /\\b(celular|smartphone|iphone|telefone)\\b/.test(title) &&
-        !/\\b(capa|case|carregador|cabo|adaptador|pelicula|suporte|cooler|mouse|teclado|fone|acessorio)\\b/.test(title);
+      return /\b(celular|smartphone|iphone|telefone)\b/.test(title) &&
+        !/\b(capa|case|carregador|cabo|adaptador|pelicula|suporte|cooler|mouse|teclado|fone|acessorio)\b/.test(title);
     }
     if(intent==="sports-shoe"){
       // "Tênis de academia" é uma busca por calçado esportivo, não por suplementos.
-      return /\\b(tenis|sneaker|calcado|sapato)\\b/.test(title);
+      return /\b(tenis|sneaker|calcado|sapato)\b/.test(title);
     }
     return true;
   }
