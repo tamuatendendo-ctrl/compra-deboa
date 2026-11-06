@@ -85,6 +85,20 @@
         </div>
       </div>
 
+      <div class="smart-search" id="smart-search" aria-label="Busca inteligente do catálogo">
+        <label class="smart-search-label" for="product-search">O que você está procurando?</label>
+        <div class="smart-search-main">
+          <input id="product-search" type="search" placeholder="Ex.: presente para mãe, tênis para academia..." autocomplete="off" aria-describedby="search-hint">
+          <button type="button" id="clear-product-search" aria-label="Limpar busca">Limpar</button>
+        </div>
+        <p id="search-hint" class="search-hint">Busque por produto, marca, necessidade ou faixa de preço. Ex.: até R$ 1.000.</p>
+        <div class="smart-search-filters">
+          <label>Preço mínimo (R$)<input id="search-price-min" type="number" min="0" step="0.01" placeholder="0"></label>
+          <label>Preço máximo (R$)<input id="search-price-max" type="number" min="0" step="0.01" placeholder="Sem limite"></label>
+          <label class="discount-toggle"><input id="search-discount-only" type="checkbox"> Só produtos com desconto</label>
+          <label>Ordenar por<select id="search-sort"><option value="relevance">Mais relevantes</option><option value="price-asc">Menor preço</option><option value="discount">Maior desconto</option><option value="newest">Mais recentes</option></select></label>
+        </div>
+      </div>
       <div class="catalog-status" id="catalog-status" aria-live="polite">1 produto disponível</div>
       <div class="offers-grid catalog-grid">
 <article class="offer-card catalog-product" data-categories="dia-a-dia bem-estar" data-store="mercado-livre">
@@ -292,5 +306,6 @@
     <div class="footer-bottom"><span>© <span id="year"></span> Compra de Boa. Todos os direitos reservados.</span><span>Alguns links poderão ser afiliados. Podemos receber comissão por compras realizadas por eles, sem custo adicional para você.</span></div>
   </footer>
   <script src="script.js"></script>
+  <script src="search.js"></script>
 </body>
 </html>
