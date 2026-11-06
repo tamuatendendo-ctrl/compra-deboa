@@ -54,7 +54,7 @@
   }
   function inferredCategory(q){
     const n=normalize(q);
-    const queryWords=n.split(/\\s+/).filter(Boolean);
+    const queryWords=n.split(/\s+/).filter(Boolean);
     for(const [key,terms] of Object.entries(aliases)){
       const normalizedTerms=terms.map(normalize);
       if(normalizedTerms.some(t=>n.includes(t))) return key;
@@ -73,6 +73,25 @@
     if(!m)return null;
     const whole=m[1].replace(/\./g,"");
     return Number(whole+(m[2]?"."+m[2]:""));
+  }
+  function queryIntent(query){
+    const q=normalize(query);
+    if(/\\b(celular|smartphone|iphone|telefone)\\b/.test(q)) return "cellphone";
+    if(/\\b(tenis|sneaker|calcado|sapato)\\b/.test(q) && /\\b(academia|treino|fitness|esporte|corrida|musculacao)\\b/.test(q)) return "sports-shoe";
+    return "";
+  }
+  function intentMatch(data,intent){
+    const title=normalize(data.title);
+    if(intent==="cellphone"){
+      // A busca por celular deve retornar celulares, não acessórios eletrônicos.
+      return /\\b(celular|smartphone|iphone|telefone)\\b/.test(title) &&
+        !/\\b(capa|case|carregador|cabo|adaptador|pelicula|suporte|cooler|mouse|teclado|fone|acessorio)\\b/.test(title);
+    }
+    if(intent==="sports-shoe"){
+      // "Tênis de academia" é uma busca por calçado esportivo, não por suplementos.
+      return /\\b(tenis|sneaker|calcado|sapato)\\b/.test(title);
+    }
+    return true;
   }
   function score(data, query){
     const q=normalize(query);
@@ -136,16 +155,7 @@
     }
     similarGrid.innerHTML="";
     similarSection.hidden=true;
-    if(query && matches.length===0){
-      const fallback=all.map((card,index)=>({card,data:cardData(card),score:score(cardData(card),query),index}))
-        .filter(x=>(cat?categoryMatch(x.data,cat):true)&&categoryMatch(x.data,activeCategory)&&(activeStore==="all"||x.data.store===activeStore)&&x.data.price>0)
-        .sort((a,b)=>b.score-a.score||a.index-b.index).slice(0,6);
-      if(fallback.length){
-        similarSection.hidden=false;
-        fallback.forEach(({card})=>similarGrid.appendChild(card.cloneNode(true)));
-      }
-    }
-    removeSmartBadges();
+    // Sem resultados: não sugerir produtos aleatórios ou interesses diferentes.\n    similarSection.hidden=true;\n    similarGrid.innerHTML="";\n    removeSmartBadges();
     if(top.length){
       const best=top.slice().sort((a,b)=>costBenefit(b.data)-costBenefit(a.data))[0];
       const info=best.card.querySelector(".offer-info");
