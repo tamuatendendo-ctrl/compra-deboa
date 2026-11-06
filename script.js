@@ -150,7 +150,9 @@ async function loadShopeeCatalog() {
       const card = document.createElement("article");
       card.className = "offer-card catalog-product";
       card.dataset.categories = item.category || "utilidades";
-      card.dataset.store = "shopee";
+      const store = item.store || "shopee";
+      const storeLabel = store === "mercado-livre" ? "Mercado Livre" : "Shopee";
+      card.dataset.store = store;
 
       const imageArea = document.createElement("div");
       imageArea.className = "product-image-area";
@@ -201,7 +203,7 @@ async function loadShopeeCatalog() {
 
       const disclaimer = document.createElement("p");
       disclaimer.className = "offer-disclaimer";
-      disclaimer.textContent = "Preço e disponibilidade podem mudar. Confira as condições na Shopee.";
+      disclaimer.textContent = "Preço e disponibilidade podem mudar. Confira as condições no " + storeLabel + ".";
       info.appendChild(disclaimer);
 
       const link = document.createElement("a");
@@ -209,7 +211,7 @@ async function loadShopeeCatalog() {
       link.href = affiliateUrl.href;
       link.target = "_blank";
       link.rel = "noopener noreferrer sponsored";
-      link.appendChild(document.createTextNode("Ver oferta na Shopee "));
+      link.appendChild(document.createTextNode("Ver oferta no " + storeLabel + " "));
       const arrow = document.createElement("span");
       arrow.textContent = "↗";
       link.appendChild(arrow);
