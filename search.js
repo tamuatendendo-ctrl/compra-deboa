@@ -97,7 +97,7 @@
     const maxBudget=maxInput.value!==""?Number(maxInput.value):qBudget;
     const minBudget=minInput.value!==""?Number(minInput.value):0;
     const cat=inferredCategory(query);
-    let matches=all.map(card=>({card,data:cardData(card),score:score(cardData(card),query)})).filter(({data,score})=>{
+    let matches=all.map((card,index)=>({card,data:cardData(card),score:score(cardData(card),query),index})).filter(({data,score})=>{
       const catOk=categoryMatch(data,activeCategory);
       const storeOk=activeStore==="all"||data.store===activeStore;
       const priceOk=(!minBudget||data.price>=minBudget)&&(!maxBudget||data.price<=maxBudget);
@@ -108,7 +108,7 @@
     matches.sort((a,b)=>{
       if(sortSelect.value==="price-asc")return a.data.price-b.data.price;
       if(sortSelect.value==="discount")return b.data.discount-a.data.discount;
-      if(sortSelect.value==="newest")return 0; // catálogo não possui data de inclusão confiável
+      if(sortSelect.value==="newest")return a.index-b.index; // ordem de inclusão no catálogo
       if(query && qBudget!==null){
         const aWithin=a.data.price<=qBudget,bWithin=b.data.price<=qBudget;
         if(aWithin!==bWithin)return aWithin?-1:1;
