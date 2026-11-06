@@ -35,7 +35,16 @@ function getFilteredProducts() {
   const selectedStore = storeSelect ? storeSelect.value : "all";
   return products.filter((product) => {
     const categories = (product.dataset.categories || "").split(/\s+/).filter(Boolean);
-    const categoryMatch = selectedCategory === "all" || categories.includes(selectedCategory);
+    const categoryAliases = {
+      "eletronicos":["eletronicos","eletronico"],
+      "casa":["casa"],
+      "dia-a-dia":["dia-a-dia","utilidades"],
+      "bem-estar":["bem-estar","beleza","fitness","saude"],
+      "moda":["moda"],
+      "natal":["natal"]
+    };
+    const allowedCategories = categoryAliases[selectedCategory] || [selectedCategory];
+    const categoryMatch = selectedCategory === "all" || allowedCategories.some(category => categories.includes(category));
     const storeMatch = selectedStore === "all" || product.dataset.store === selectedStore;
     return categoryMatch && storeMatch;
   });
