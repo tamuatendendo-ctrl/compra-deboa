@@ -7,5 +7,11 @@ export async function onRequest({ request, next }) {
     return Response.redirect(url.toString(), 301);
   }
 
+  // Redirect www to the canonical root domain, preserving path and query.
+  if (url.hostname === "www.compradeboa.com") {
+    url.hostname = "compradeboa.com";
+    return Response.redirect(url.toString(), 301);
+  }
+
   return next();
 }
