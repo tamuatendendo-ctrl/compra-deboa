@@ -64,7 +64,7 @@
   }
   function extractBudget(q){
     const n=normalize(q);
-    const m=n.match(/(?:ate|menos de|no maximo|maximo|max)\\s*(?:r\\s*)?\\$?\\s*([0-9.]+(?:,[0-9]{1,2})?)/);
+    const m=n.match(/(?:ate|menos de|no maximo|maximo|max)\s*(?:r\s*)?\$?\s*([0-9.]+(?:,[0-9]{1,2})?)/);
     if(!m)return null;
     return Number(m[1].replace(/\./g,"").replace(",","."));
   }
@@ -152,7 +152,9 @@
   if(store)store.addEventListener("change",()=>{activeStore=store.value;setTimeout(apply,0);});
   [input,minInput,maxInput,discountOnly,sortSelect].forEach(el=>el&&el.addEventListener("input",apply));
   clearButton?.addEventListener("click",()=>{input.value="";minInput.value="";maxInput.value="";discountOnly.checked=false;sortSelect.value="relevance";apply();input.focus();});
-  const observer=new MutationObserver(()=>apply());
+  const observer=new MutationObserver((mutations)=>{
+    if(mutations.some(m=>[...m.addedNodes,...m.removedNodes].some(n=>n.nodeType===1&&n.classList?.contains("catalog-product")))) apply();
+  });
   observer.observe(grid,{childList:true});
   apply();
 })();
