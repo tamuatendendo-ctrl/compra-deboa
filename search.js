@@ -24,8 +24,8 @@
     "eletronicos":["eletronicos","eletronico","celular","smartphone","fone","tablet","computador","notebook","gadgets"],
     "casa":["casa","decoracao","cozinha","organizacao","organizar","lar","moveis","panelas","lençol"],
     "dia-a-dia":["utilidades","dia a dia","pratico","pratica","uso diario","presente","presentes"],
-    "bem-estar":["beleza","fitness","saude","bem estar","academia","treino","skincare","creatina","whey","perfume"],
-    "moda":["moda","roupa","roupas","tenis","sapato","acessorio"],
+    "bem-estar":["beleza","fitness","saude","bem estar","academia","treino","skincare","creatina","whey","perfume","esporte","corrida"],
+    "moda":["moda","roupa","roupas","tenis","sapato","acessorio","calcado","calçado"],
     "natal":["natal","natalino","natalina","arvore","pisca pisca"]
   };
   const normalize = (s) => String(s||"").toLocaleLowerCase("pt-BR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim();
@@ -54,7 +54,13 @@
   }
   function inferredCategory(q){
     const n=normalize(q);
-    for(const [key,terms] of Object.entries(aliases)) if(terms.some(t=>n.includes(normalize(t)))) return key;
+    const queryWords=n.split(/\\s+/).filter(Boolean);
+    for(const [key,terms] of Object.entries(aliases)){
+      const normalizedTerms=terms.map(normalize);
+      if(normalizedTerms.some(t=>n.includes(t))) return key;
+      // Tolera erros simples de digitação em palavras de categoria (ex.: "natalz").
+      if(queryWords.some(qw=>normalizedTerms.some(term=>term.split(" ").some(t=>t.length>=4 && qw.length>=4 && distance(qw,t)<=1)))) return key;
+    }
     return "";
   }
   function categoryMatch(data,cat){
@@ -117,12 +123,22 @@
     });
     const top=searchMode?matches.slice(0,12):matches;
     const visible=new Set(top.map(x=>x.card));
-    all.forEach(card=>{card.classList.toggle("search-hidden",!visible.has(card));});
+    window.__catalogSearchActive=searchMode;
+    all.forEach(card=>{
+      if(searchMode) card.hidden=false; // Busca controla a vitrine; não deixa a paginação antiga esconder resultados.
+      card.classList.toggle("search-hidden",searchMode&&!visible.has(card));
+    });
+    // Ao limpar busca/filtros, devolve o controle à paginação normal do catálogo.
+    if(!searchMode && typeof window.renderCatalog==="function" && !window.__catalogSearchRestoring){
+      window.__catalogSearchRestoring=true;
+      window.renderCatalog();
+      window.__catalogSearchRestoring=false;
+    }
     similarGrid.innerHTML="";
     similarSection.hidden=true;
     if(query && matches.length===0){
       const fallback=all.map((card,index)=>({card,data:cardData(card),score:score(cardData(card),query),index}))
-        .filter(x=>(cat?categoryMatch(x.data,cat):true)&&x.data.price>0)
+        .filter(x=>(cat?categoryMatch(x.data,cat):true)&&categoryMatch(x.data,activeCategory)&&(activeStore==="all"||x.data.store===activeStore)&&x.data.price>0)
         .sort((a,b)=>b.score-a.score||a.index-b.index).slice(0,6);
       if(fallback.length){
         similarSection.hidden=false;
