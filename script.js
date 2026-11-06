@@ -93,9 +93,11 @@ function renderCatalog() {
   const start = (currentPage - 1) * pageSize;
   const pageProducts = new Set(filtered.slice(start, start + pageSize));
 
-  products.forEach((product) => {
-    product.hidden = !pageProducts.has(product);
-  });
+  if (!window.__catalogSearchActive) {
+    products.forEach((product) => {
+      product.hidden = !pageProducts.has(product);
+    });
+  }
 
   if (emptyState) emptyState.hidden = filtered.length > 0;
   if (catalogStatus) {
@@ -105,6 +107,8 @@ function renderCatalog() {
   }
   renderPagination(totalPages);
 }
+
+window.renderCatalog = renderCatalog;
 
 function setCategory(category) {
   selectedCategory = category;
