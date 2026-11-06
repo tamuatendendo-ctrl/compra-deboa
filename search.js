@@ -64,7 +64,7 @@
   }
   function extractBudget(q){
     const n=normalize(q);
-    const m=n.match(/(?:ate|até|menos de|no maximo|maximo|max)s*(?:rs*)?$?s*([0-9.]+(?:,[0-9]{1,2})?)/);
+    const m=n.match(/(?:ate|menos de|no maximo|maximo|max)\\s*(?:r\\s*)?\\$?\\s*([0-9.]+(?:,[0-9]{1,2})?)/);
     if(!m)return null;
     return Number(m[1].replace(/\./g,"").replace(",","."));
   }
@@ -121,9 +121,9 @@
     similarGrid.innerHTML="";
     similarSection.hidden=true;
     if(query && matches.length===0){
-      const fallback=all.map(card=>({card,data:cardData(card),score:score(cardData(card),query)}))
+      const fallback=all.map((card,index)=>({card,data:cardData(card),score:score(cardData(card),query),index}))
         .filter(x=>(cat?categoryMatch(x.data,cat):true)&&x.data.price>0)
-        .sort((a,b)=>b.score-a.score||a.data.price-b.data.price).slice(0,6);
+        .sort((a,b)=>b.score-a.score||a.index-b.index).slice(0,6);
       if(fallback.length){
         similarSection.hidden=false;
         fallback.forEach(({card})=>similarGrid.appendChild(card.cloneNode(true)));
