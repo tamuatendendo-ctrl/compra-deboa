@@ -193,3 +193,26 @@
 .filter-pill[data-category="natal"]{background:#16803c;color:#fff;border-color:#16803c}
 .filter-pill[data-category="natal"]:hover{background:#126b32;color:#fff;border-color:#126b32}
 .filter-pill[data-category="natal"].active{background:#d62828;color:#fff;border-color:#d62828}
+
+/* Busca inteligente Compra de Boa */
+.smart-search{background:#fff;border:1px solid #e9e2f4;border-radius:18px;padding:20px;margin:24px 0;box-shadow:0 8px 28px rgba(50,20,90,.06)}
+.smart-search-label{display:block;font-weight:900;color:#351064;font-size:1.08rem;margin-bottom:10px}
+.smart-search-main{display:flex;gap:8px}
+.smart-search-main input{flex:1;min-width:0;border:1px solid #d8cde8;border-radius:12px;padding:14px 16px;font:inherit;font-size:1rem;outline:none}
+.smart-search-main input:focus,.smart-search-filters input:focus,.smart-search-filters select:focus{border-color:#6b2db3;box-shadow:0 0 0 3px rgba(107,45,179,.12)}
+.smart-search-main button{border:0;border-radius:12px;padding:0 16px;background:#4b0d91;color:#fff;font-weight:800;cursor:pointer}
+.search-hint{margin:8px 0 14px;color:#70677c;font-size:.88rem}
+.smart-search-filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:end}
+.smart-search-filters label{display:flex;flex-direction:column;gap:6px;font-size:.82rem;font-weight:800;color:#4b3860}
+.smart-search-filters input:not([type=checkbox]),.smart-search-filters select{width:100%;box-sizing:border-box;border:1px solid #ddd2e9;border-radius:10px;padding:10px;background:#fff;color:#2c2038;font:inherit}
+.smart-search-filters .discount-toggle{flex-direction:row;align-items:center;gap:8px;min-height:42px}
+.discount-toggle input{accent-color:#4b0d91;width:18px;height:18px}
+.search-result-heading{font-weight:900;color:#4b0d91;margin:18px 0 12px}
+.search-similar-section{margin:26px 0;padding-top:20px;border-top:2px dashed #e1d6ef}
+.search-similar-section h3{color:#4b0d91;margin:0 0 8px}
+.search-similar-section p{color:#6e6478;margin:0 0 16px}
+.catalog-product .smart-buy-badge{display:inline-flex;align-items:center;background:#16803c;color:#fff;font-size:.72rem;font-weight:900;padding:5px 9px;border-radius:999px;margin:0 0 8px}
+.catalog-product.search-hidden{display:none!important}
+.catalog-pagination.search-pagination-hidden{display:none!important}
+@media(max-width:760px){.smart-search{padding:15px}.smart-search-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.smart-search-main{flex-wrap:wrap}.smart-search-main input{width:100%;flex-basis:100%}.smart-search-main button{padding:11px 16px}}
+@media(max-width:420px){.smart-search-filters{grid-template-columns:1fr}}
