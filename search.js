@@ -63,10 +63,10 @@
     return terms.some(t=>data.category.includes(normalize(t))) || data.category.includes(normalize(cat));
   }
   function extractBudget(q){
-    const n=normalize(q);
-    const m=n.match(/(?:ate|menos de|no maximo|maximo|max)\s*(?:r\s*)?\$?\s*([0-9.]+(?:,[0-9]{1,2})?)/);
+    const m=String(q||"").match(/(?:até|ate|menos de|no máximo|no maximo|maximo|max)\s*(?:R\$\s*)?(\d[\d.]*)(?:,(\d{1,2}))?/i);
     if(!m)return null;
-    return Number(m[1].replace(/\./g,"").replace(",","."));
+    const whole=m[1].replace(/\./g,"");
+    return Number(whole+(m[2]?"."+m[2]:""));
   }
   function score(data, query){
     const q=normalize(query);
