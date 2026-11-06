@@ -122,13 +122,15 @@
     const maxBudget=maxInput.value!==""?Number(maxInput.value):qBudget;
     const minBudget=minInput.value!==""?Number(minInput.value):0;
     const cat=inferredCategory(query);
+    const intent=queryIntent(query);
     let matches=all.map((card,index)=>({card,data:cardData(card),score:score(cardData(card),query),index})).filter(({data,score})=>{
       const catOk=categoryMatch(data,activeCategory);
       const storeOk=activeStore==="all"||data.store===activeStore;
       const priceOk=(!minBudget||data.price>=minBudget)&&(!maxBudget||data.price<=maxBudget);
       const discountOk=!discountOnly.checked||data.discount>0;
       const queryOk=!query||score>0;
-      return catOk&&storeOk&&priceOk&&discountOk&&queryOk;
+      const intentOk=intentMatch(data,intent);
+      return catOk&&storeOk&&priceOk&&discountOk&&queryOk&&intentOk;
     });
     matches.sort((a,b)=>{
       if(sortSelect.value==="price-asc")return a.data.price-b.data.price;
