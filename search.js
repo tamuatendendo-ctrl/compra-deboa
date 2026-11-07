@@ -207,8 +207,8 @@
     applying = true;
     const query = input.value.trim();
     const queryBudget = extractBudget(query);
-    const minPrice = minInput?.value !== "" ? Number(minInput.value) : 0;
-    const maxPrice = maxInput?.value !== "" ? Number(maxInput.value) : queryBudget;
+    const minPrice = minInput && minInput.value !== "" ? Number(minInput.value) : 0;
+    const maxPrice = maxInput && maxInput.value !== "" ? Number(maxInput.value) : queryBudget;
     const intent = queryIntent(query);
     const store = storeSelect?.value || "all";
     const searchActive = Boolean(query || minPrice || maxPrice || discountOnly?.checked ||
