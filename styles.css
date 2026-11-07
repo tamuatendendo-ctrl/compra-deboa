@@ -218,7 +218,8 @@
 @media(max-width:420px){.smart-search-filters{grid-template-columns:1fr}}
 
 
-/* Recorte discreto da moldura preta que já vem embutida em algumas fotos Shopee */
-.catalog-grid .product-image-area .real-product-image--crop-frame{
-  transform:scale(1.045);
+/* Recorte leve e uniforme para reduzir bordas/molduras embutidas nas imagens dos produtos.
+   Mantém a imagem centralizada e não altera o tamanho do card. */
+.catalog-grid .product-image-area .real-product-image{
+  transform:scale(1.08);
 }
