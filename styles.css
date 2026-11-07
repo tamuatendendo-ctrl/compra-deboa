@@ -216,3 +216,19 @@
 .catalog-pagination.search-pagination-hidden{display:none!important}
 @media(max-width:760px){.smart-search{padding:15px}.smart-search-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.smart-search-main{flex-wrap:wrap}.smart-search-main input{width:100%;flex-basis:100%}.smart-search-main button{padding:11px 16px}}
 @media(max-width:420px){.smart-search-filters{grid-template-columns:1fr}}
+
+
+/* Recorte leve e uniforme das fotos de catálogo para remover molduras
+   pretas que vêm embutidas nas imagens dos marketplaces. */
+.catalog-grid .product-image-area .real-product-image{
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  max-width: none;
+  max-height: none;
+  min-height: 0;
+  padding: 0;
+  object-fit: cover;
+  object-position: center;
+  flex: 0 0 auto;
+  transform: none;
+}
