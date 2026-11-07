@@ -1,188 +1,304 @@
-/* Busca inteligente local — Compra de Boa */
+/* Busca, filtros e paginação unificados — Compra de Boa */
 (() => {
   const grid = document.querySelector(".catalog-grid");
   const input = document.querySelector("#product-search");
   if (!grid || !input) return;
+
   const minInput = document.querySelector("#search-price-min");
   const maxInput = document.querySelector("#search-price-max");
   const discountOnly = document.querySelector("#search-discount-only");
   const sortSelect = document.querySelector("#search-sort");
   const clearButton = document.querySelector("#clear-product-search");
+  const storeSelect = document.querySelector("#store-filter");
   const status = document.querySelector("#catalog-status");
   const pagination = document.querySelector("#catalog-pagination");
   const empty = document.querySelector("#catalog-empty");
-  const similarSection = document.createElement("section");
-  similarSection.className = "search-similar-section";
-  similarSection.hidden = true;
-  similarSection.innerHTML = '<h3>Talvez você também goste</h3><p>Não encontramos exatamente o que você procura. Veja alternativas próximas.</p><div class="offers-grid similar-products-grid"></div>';
-  grid.insertAdjacentElement("afterend", similarSection);
-  const similarGrid = similarSection.querySelector(".similar-products-grid");
+  const categoryButtons = document.querySelectorAll("[data-category].filter-pill,.category-filter-card");
+  const resetFilters = document.querySelector("#reset-filters");
+  const pageSize = 16;
+
   let activeCategory = "all";
-  let activeStore = "all";
-  let searchMode = false;
-  const aliases = {
-    "eletronicos":["eletronicos","eletronico","celular","smartphone","fone","tablet","computador","notebook","gadgets"],
-    "casa":["casa","decoracao","cozinha","organizacao","organizar","lar","moveis","panelas","lençol"],
-    "dia-a-dia":["utilidades","dia a dia","pratico","pratica","uso diario","presente","presentes"],
-    "bem-estar":["beleza","fitness","saude","bem estar","academia","treino","skincare","creatina","whey","perfume","esporte","corrida"],
-    "moda":["moda","roupa","roupas","tenis","sapato","acessorio","calcado","calçado"],
-    "natal":["natal","natalino","natalina","arvore","pisca pisca"]
+  let currentPage = 1;
+  let applying = false;
+
+  const categoryAliases = {
+    "eletronicos":["eletronicos","eletronico","eletronica"],
+    "casa":["casa","decoracao","cozinha","organizacao","lar"],
+    "dia-a-dia":["dia-a-dia","utilidades","dia a dia"],
+    "bem-estar":["bem-estar","beleza","fitness","saude"],
+    "moda":["moda"],
+    "natal":["natal"]
   };
-  const normalize = (s) => String(s||"").toLocaleLowerCase("pt-BR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim();
-  const synonyms = {
-    "mae":"mãe presente dia das maes maternidade","presente":"presente regalo gift","organizar":"organizacao organizador organizadora armazenamento","cozinha":"casa utensilios cozinha panelas","academia":"fitness treino esporte musculacao tenis whey creatina","barato":"economico custo beneficio menor preco","celular":"smartphone telefone mobile","fone":"fone de ouvido headphone headset","tenis":"tênis calcado sneaker","beleza":"skincare maquiagem cuidados pessoais perfume"
+
+  const normalize = (value) => String(value || "")
+    .toLocaleLowerCase("pt-BR")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
+  const synonymMap = {
+    mae:["presente","dia das maes","maternidade","mae"],
+    presente:["presente","gift","lembranca","kit"],
+    academia:["treino","fitness","esporte","musculacao"],
+    tenis:["calcado","sneaker","sapato"],
+    celular:["smartphone","telefone","iphone"],
+    smartphone:["celular","telefone","iphone"],
+    barato:["economico","custo beneficio","menor preco"],
+    cozinha:["utensilios","panelas","casa"],
+    organizar:["organizacao","organizador","armazenamento"],
+    natal:["natalino","natalina","arvore","pisca pisca"]
   };
-  const expand = (q) => {
-    let words=normalize(q).split(/\s+/).filter(Boolean);
-    const extra=[];
-    words.forEach(w=>{if(synonyms[w]) extra.push(...normalize(synonyms[w]).split(" "));});
-    return [...new Set([...words,...extra])];
-  };
-  function distance(a,b){if(Math.abs(a.length-b.length)>2)return 99;let prev=Array.from({length:b.length+1},(_,i)=>i);for(let i=1;i<=a.length;i++){let cur=[i];for(let j=1;j<=b.length;j++)cur[j]=Math.min(cur[j-1]+1,prev[j]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));prev=cur;}return prev[b.length];}
-  function fuzzyToken(token, words){return words.some(w=>w===token || (token.length>=4 && w.length>=4 && distance(token,w)<=1));}
-  function cardData(card){
-    const title=card.querySelector("h3")?.textContent||"";
-    const category=normalize(card.dataset.categories||"");
-    const store=card.dataset.store||"";
-    const priceText=card.querySelector(".offer-price strong")?.textContent||"";
-    const price=Number(priceText.replace(/[^0-9,]/g,"").replace(".","").replace(",", "."))||0;
-    const discountText=card.querySelector(".offer-discount")?.textContent||"";
-    const discount=Number(discountText.replace(/[^0-9]/g,""))||0;
-    const ratingText=card.querySelector(".offer-rating")?.textContent||"";
-    const rating=Number((ratingText.match(/[0-9]+[,.]?[0-9]*/)||[])[0]?.replace(",", "."))||0;
-    return {title,category,store,price,discount,rating,words:normalize(title+" "+category+" "+store).split(" ")};
+
+  function words(value) {
+    return normalize(value).split(/\s+/).filter(Boolean);
   }
-  function inferredCategory(q){
-    const n=normalize(q);
-    const queryWords=n.split(/\s+/).filter(Boolean);
-    for(const [key,terms] of Object.entries(aliases)){
-      const normalizedTerms=terms.map(normalize);
-      if(normalizedTerms.some(t=>n.includes(t))) return key;
-      // Tolera erros simples de digitação em palavras de categoria (ex.: "natalz").
-      if(queryWords.some(qw=>normalizedTerms.some(term=>term.split(" ").some(t=>t.length>=4 && qw.length>=4 && distance(qw,t)<=1)))) return key;
-    }
+
+  function extractBudget(query) {
+    const match = String(query || "").match(/(?:ate|até|menos de|no maximo|maximo|max)\s*(?:r\$\s*)?(\d[\d.]*)(?:,(\d{1,2}))?/i);
+    if (!match) return null;
+    const integer = match[1].replace(/\./g, "");
+    return Number(integer + (match[2] ? "." + match[2] : ""));
+  }
+
+  function parsePrice(card) {
+    const text = card.querySelector(".offer-price strong")?.textContent || "";
+    const normalized = text.replace(/[^0-9,.]/g, "");
+    if (!normalized) return 0;
+    // Formato brasileiro: 1.299,90 -> 1299.90; 299,90 -> 299.90
+    return Number(normalized.replace(/\./g, "").replace(",", ".")) || 0;
+  }
+
+  function cardData(card, index) {
+    const title = card.querySelector("h3")?.textContent?.trim() || "";
+    const category = normalize(card.dataset.categories || "");
+    const store = normalize(card.dataset.store || "");
+    const discountText = card.querySelector(".offer-discount")?.textContent || "";
+    const ratingText = card.querySelector(".offer-rating")?.textContent || "";
+    return {
+      card, index, title, normalizedTitle: normalize(title), category, store,
+      price: parsePrice(card),
+      discount: Number(discountText.replace(/[^0-9]/g, "")) || 0,
+      rating: Number((ratingText.match(/[0-9]+[,.]?[0-9]*/)||[])[0]?.replace(",", ".")) || 0,
+      searchable: normalize(title + " " + category + " " + store)
+    };
+  }
+
+  function selectedCategoryMatch(data) {
+    if (activeCategory === "all") return true;
+    const aliases = categoryAliases[activeCategory] || [activeCategory];
+    return aliases.some(alias => data.category.includes(normalize(alias)));
+  }
+
+  function queryIntent(query) {
+    const q = normalize(query);
+    if (/\b(celular|smartphone|iphone|telefone)\b/.test(q)) return "phone";
+    if (/\b(tenis|sneaker|calcado|sapato)\b/.test(q) &&
+        /\b(academia|treino|fitness|esporte|corrida|musculacao)\b/.test(q)) return "sports-shoe";
+    if (/\b(presente|gift)\b/.test(q) && /\b(mae|mãe|pai|namorada|namorado|crianca|criança)\b/.test(q)) return "gift";
     return "";
   }
-  function categoryMatch(data,cat){
-    if(cat==="all")return true;
-    const terms=aliases[cat]||[cat];
-    return terms.some(t=>data.category.includes(normalize(t))) || data.category.includes(normalize(cat));
-  }
-  function extractBudget(q){
-    const m=String(q||"").match(/(?:até|ate|menos de|no máximo|no maximo|maximo|max)\s*(?:R\$\s*)?(\d[\d.]*)(?:,(\d{1,2}))?/i);
-    if(!m)return null;
-    const whole=m[1].replace(/\./g,"");
-    return Number(whole+(m[2]?"."+m[2]:""));
-  }
-  function queryIntent(query){
-    const q=normalize(query);
-    if(/\b(celular|smartphone|iphone|telefone)\b/.test(q)) return "cellphone";
-    if(/\b(tenis|sneaker|calcado|sapato)\b/.test(q) && /\b(academia|treino|fitness|esporte|corrida|musculacao)\b/.test(q)) return "sports-shoe";
-    return "";
-  }
-  function intentMatch(data,intent){
-    const title=normalize(data.title);
-    if(intent==="cellphone"){
-      // A busca por celular deve retornar celulares, não acessórios eletrônicos.
+
+  function matchesIntent(data, intent) {
+    const title = data.normalizedTitle;
+    if (intent === "phone") {
       return /\b(celular|smartphone|iphone|telefone)\b/.test(title) &&
-        !/\b(capa|case|carregador|cabo|adaptador|pelicula|suporte|cooler|mouse|teclado|fone|acessorio)\b/.test(title);
+        !/\b(capa|case|carregador|cabo|adaptador|pelicula|suporte|cooler|mouse|teclado|fone|acessorio|acessório)\b/.test(title);
     }
-    if(intent==="sports-shoe"){
-      // "Tênis de academia" é uma busca por calçado esportivo, não por suplementos.
-      return /\b(tenis|sneaker|calcado|sapato)\b/.test(title);
+    if (intent === "sports-shoe") {
+      return /\b(tenis|sneaker|calcado|sapato)\b/.test(title) &&
+        !/\b(whey|creatina|suplemento|legging|short|camiseta)\b/.test(title);
+    }
+    if (intent === "gift") {
+      return !/\b(cabo|carregador|pelicula|peca de reposicao)\b/.test(title);
     }
     return true;
   }
-  function score(data, query){
-    const q=normalize(query);
-    if(!q)return 0;
-    const words=expand(query).filter(w=>w.length>1);
-    let score=0;
-    const title=normalize(data.title);
-    words.forEach(w=>{
-      if(title.includes(w))score+=title.startsWith(w)?9:6;
-      else if(data.words.some(x=>fuzzyToken(w,[x])))score+=2;
+
+  function scoreProduct(data, query) {
+    const original = words(query);
+    if (!original.length) return 0;
+    const expanded = new Set(original);
+    original.forEach(word => (synonymMap[word] || []).forEach(term => words(term).forEach(w => expanded.add(w))));
+    let score = 0;
+    original.forEach(word => {
+      if (data.normalizedTitle.includes(word)) score += data.normalizedTitle.startsWith(word) ? 12 : 8;
+      else if (data.searchable.includes(word)) score += 4;
     });
-    const category=inferredCategory(query);
-    if(category && categoryMatch(data,category))score+=5;
-    if(/presente/.test(q) && /kit|presente|livro|boneca|perfume|acessorio/.test(title))score+=2;
-    if(/academia|treino|fitness/.test(q) && /tenis|whey|creatina|fitness|esporte/.test(title))score+=3;
-    const budget=extractBudget(query);
-    if(budget!==null && data.price>0 && data.price<=budget)score+=4;
+    // Sinônimos ajudam a descoberta, mas têm peso menor para evitar resultados distantes.
+    [...expanded].filter(word => !original.includes(word)).forEach(word => {
+      if (data.normalizedTitle.includes(word)) score += 2;
+      else if (data.searchable.includes(word)) score += 1;
+    });
+    if (original.length > 1 && original.every(word => data.normalizedTitle.includes(word))) score += 7;
+
+    const intent = queryIntent(query);
+    if (intent === "sports-shoe" && /\b(tenis|sneaker|calcado)\b/.test(data.normalizedTitle)) score += 10;
+    if (intent === "phone" && /\b(celular|smartphone|iphone|telefone)\b/.test(data.normalizedTitle)) score += 10;
+    if (intent === "gift" && /\b(kit|presente|perfume|livro|brinquedo|boneca|bolsa|colar|relogio)\b/.test(data.normalizedTitle)) score += 3;
     return score;
   }
-  function removeSmartBadges(){
-    grid.querySelectorAll(".smart-buy-badge").forEach(el=>el.remove());
+
+  function setCategory(category) {
+    activeCategory = category || "all";
+    currentPage = 1;
+    categoryButtons.forEach(button => {
+      const active = button.dataset.category === activeCategory;
+      if (button.classList.contains("filter-pill")) button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+    apply();
   }
-  function apply(){
-    const query=input.value.trim();
-    searchMode=Boolean(query||minInput.value||maxInput.value||discountOnly.checked||sortSelect.value!=="relevance");
-    const all=Array.from(grid.querySelectorAll(".catalog-product"));
-    const qBudget=extractBudget(query);
-    const maxBudget=maxInput.value!==""?Number(maxInput.value):qBudget;
-    const minBudget=minInput.value!==""?Number(minInput.value):0;
-    const cat=inferredCategory(query);
-    const intent=queryIntent(query);
-    let matches=all.map((card,index)=>({card,data:cardData(card),score:score(cardData(card),query),index})).filter(({data,score})=>{
-      const catOk=categoryMatch(data,activeCategory);
-      const storeOk=activeStore==="all"||data.store===activeStore;
-      const priceOk=(!minBudget||data.price>=minBudget)&&(!maxBudget||data.price<=maxBudget);
-      const discountOk=!discountOnly.checked||data.discount>0;
-      const queryOk=!query||score>0;
-      const intentOk=intentMatch(data,intent);
-      return catOk&&storeOk&&priceOk&&discountOk&&queryOk&&intentOk;
-    });
-    matches.sort((a,b)=>{
-      if(sortSelect.value==="price-asc")return a.data.price-b.data.price;
-      if(sortSelect.value==="discount")return b.data.discount-a.data.discount;
-      if(sortSelect.value==="newest")return a.index-b.index; // ordem de inclusão no catálogo
-      if(query && qBudget!==null){
-        const aWithin=a.data.price<=qBudget,bWithin=b.data.price<=qBudget;
-        if(aWithin!==bWithin)return aWithin?-1:1;
-      }
-      return b.score-a.score || (b.data.rating-a.data.rating) || a.data.price-b.data.price;
-    });
-    const top=searchMode?matches.slice(0,12):matches;
-    const visible=new Set(top.map(x=>x.card));
-    window.__catalogSearchActive=searchMode;
-    all.forEach(card=>{
-      if(searchMode) card.hidden=false; // Busca controla a vitrine; não deixa a paginação antiga esconder resultados.
-      card.classList.toggle("search-hidden",searchMode&&!visible.has(card));
-    });
-    // Ao limpar busca/filtros, devolve o controle à paginação normal do catálogo.
-    if(!searchMode && typeof window.renderCatalog==="function" && !window.__catalogSearchRestoring){
-      window.__catalogSearchRestoring=true;
-      window.renderCatalog();
-      window.__catalogSearchRestoring=false;
-    }
-    similarGrid.innerHTML="";
-    similarSection.hidden=true;
-    // Sem resultados: não sugerir produtos aleatórios ou interesses diferentes.\n    similarSection.hidden=true;\n    similarGrid.innerHTML="";\n    removeSmartBadges();
-    if(top.length){
-      const best=top.slice().sort((a,b)=>costBenefit(b.data)-costBenefit(a.data))[0];
-      const info=best.card.querySelector(".offer-info");
-      if(info && !info.querySelector(".smart-buy-badge")){
-        const badge=document.createElement("span");badge.className="smart-buy-badge";badge.textContent="✦ Compra inteligente";info.insertBefore(badge,info.firstChild);
+
+  function renderPagination(totalPages) {
+    if (!pagination) return;
+    pagination.innerHTML = "";
+    pagination.classList.remove("search-pagination-hidden");
+    pagination.hidden = totalPages <= 1;
+    if (totalPages <= 1) return;
+
+    const addButton = (label, page, options = {}) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "pagination-button" + (options.active ? " active" : "");
+      button.textContent = label;
+      button.disabled = Boolean(options.disabled);
+      button.setAttribute("aria-label", options.ariaLabel || label);
+      if (options.active) button.setAttribute("aria-current", "page");
+      button.addEventListener("click", () => {
+        currentPage = page;
+        apply();
+        document.querySelector("#ofertas")?.scrollIntoView({behavior:"smooth", block:"start"});
+      });
+      pagination.appendChild(button);
+    };
+
+    addButton("‹", Math.max(1, currentPage - 1), {disabled:currentPage === 1, ariaLabel:"Página anterior"});
+    const start = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
+    const end = Math.min(totalPages, start + 4);
+    if (start > 1) {
+      addButton("1", 1);
+      if (start > 2) {
+        const dots = document.createElement("span");
+        dots.className = "pagination-info";
+        dots.textContent = "…";
+        pagination.appendChild(dots);
       }
     }
-    if(status)status.textContent=query||searchMode?top.length+" produto(s) encontrado(s)"+(matches.length>12?" · mostrando os 12 mais relevantes":""):matches.length+" produtos encontrados";
-    if(pagination)pagination.classList.toggle("search-pagination-hidden",searchMode);
-    if(empty)empty.hidden=top.length>0;
-    if(!query && !searchMode)similarSection.hidden=true;
+    for (let page = start; page <= end; page++) addButton(String(page), page, {active:page === currentPage});
+    if (end < totalPages) {
+      if (end < totalPages - 1) {
+        const dots = document.createElement("span");
+        dots.className = "pagination-info";
+        dots.textContent = "…";
+        pagination.appendChild(dots);
+      }
+      addButton(String(totalPages), totalPages);
+    }
+    addButton("›", Math.min(totalPages, currentPage + 1), {disabled:currentPage === totalPages, ariaLabel:"Próxima página"});
+    const info = document.createElement("span");
+    info.className = "pagination-info";
+    info.textContent = "Página " + currentPage + " de " + totalPages;
+    pagination.appendChild(info);
   }
-  function costBenefit(d){return (d.rating||0)*2 + Math.max(0,Math.min(d.discount,40))*.08 - Math.log10(Math.max(d.price,1));}
-  const originalRender=window.renderCatalog;
-  if(typeof originalRender==="function")window.renderCatalog=function(){originalRender();apply();};
-  document.querySelectorAll("[data-category].filter-pill,.category-filter-card").forEach(btn=>{
-    btn.addEventListener("click",()=>{activeCategory=btn.dataset.category||"all";setTimeout(apply,0);});
+
+  function apply() {
+    if (applying) return;
+    applying = true;
+    const query = input.value.trim();
+    const queryBudget = extractBudget(query);
+    const minPrice = minInput?.value !== "" ? Number(minInput.value) : 0;
+    const maxPrice = maxInput?.value !== "" ? Number(maxInput.value) : queryBudget;
+    const intent = queryIntent(query);
+    const store = storeSelect?.value || "all";
+    const searchActive = Boolean(query || minPrice || maxPrice || discountOnly?.checked ||
+      (sortSelect && sortSelect.value !== "relevance") || activeCategory !== "all" || store !== "all");
+
+    const all = Array.from(grid.querySelectorAll(".catalog-product"));
+    let results = all.map((card, index) => cardData(card, index)).filter(data => {
+      if (!selectedCategoryMatch(data)) return false;
+      if (store !== "all" && data.card.dataset.store !== store) return false;
+      if (minPrice > 0 && data.price < minPrice) return false;
+      if (maxPrice !== null && maxPrice > 0 && data.price > maxPrice) return false;
+      if (discountOnly?.checked && data.discount <= 0) return false;
+      if (!matchesIntent(data, intent)) return false;
+      if (query && scoreProduct(data, query) <= 0) return false;
+      return true;
+    });
+
+    results.sort((a, b) => {
+      if (sortSelect?.value === "price-asc") return (a.price || Infinity) - (b.price || Infinity);
+      if (sortSelect?.value === "discount") return b.discount - a.discount || b.rating - a.rating;
+      if (sortSelect?.value === "newest") return b.index - a.index;
+      const scoreDiff = scoreProduct(b, query) - scoreProduct(a, query);
+      if (query && scoreDiff) return scoreDiff;
+      if (queryBudget !== null) {
+        const aInBudget = a.price > 0 && a.price <= queryBudget;
+        const bInBudget = b.price > 0 && b.price <= queryBudget;
+        if (aInBudget !== bInBudget) return aInBudget ? -1 : 1;
+      }
+      return b.rating - a.rating || b.discount - a.discount || a.price - b.price;
+    });
+
+    const totalPages = Math.max(1, Math.ceil(results.length / pageSize));
+    currentPage = Math.min(currentPage, totalPages);
+    const pageResults = results.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+    const visible = new Set(pageResults.map(item => item.card));
+
+    window.__catalogSearchActive = true;
+    all.forEach(card => {
+      card.hidden = !visible.has(card);
+      card.classList.toggle("search-hidden", !visible.has(card));
+    });
+
+    renderPagination(totalPages);
+    if (empty) empty.hidden = results.length > 0;
+    if (status) {
+      const count = results.length;
+      status.textContent = count === 1 ? "1 produto encontrado" : count + " produtos encontrados";
+      if (query && results.length > pageSize) status.textContent += " · página " + currentPage + " de " + totalPages;
+    }
+
+    // A página de catálogo tem apenas um reset; mantemos os controles visuais sincronizados.
+    if (resetFilters) resetFilters.hidden = results.length > 0 && !searchActive;
+    applying = false;
+  }
+
+  categoryButtons.forEach(button => button.addEventListener("click", () => setCategory(button.dataset.category)));
+  storeSelect?.addEventListener("change", () => { currentPage = 1; apply(); });
+  [input, minInput, maxInput, discountOnly, sortSelect].forEach(element => {
+    if (!element) return;
+    element.addEventListener("input", () => { currentPage = 1; apply(); });
+    element.addEventListener("change", () => { currentPage = 1; apply(); });
   });
-  const store=document.querySelector("#store-filter");
-  if(store)store.addEventListener("change",()=>{activeStore=store.value;setTimeout(apply,0);});
-  [input,minInput,maxInput,discountOnly,sortSelect].forEach(el=>el&&el.addEventListener("input",apply));
-  clearButton?.addEventListener("click",()=>{input.value="";minInput.value="";maxInput.value="";discountOnly.checked=false;sortSelect.value="relevance";apply();input.focus();});
-  const observer=new MutationObserver((mutations)=>{
-    if(mutations.some(m=>[...m.addedNodes,...m.removedNodes].some(n=>n.nodeType===1&&n.classList?.contains("catalog-product")))) apply();
+
+  function clearAll() {
+    input.value = "";
+    if (minInput) minInput.value = "";
+    if (maxInput) maxInput.value = "";
+    if (discountOnly) discountOnly.checked = false;
+    if (sortSelect) sortSelect.value = "relevance";
+    if (storeSelect) storeSelect.value = "all";
+    setCategory("all");
+    currentPage = 1;
+    apply();
+    input.focus();
+  }
+  clearButton?.addEventListener("click", clearAll);
+  resetFilters?.addEventListener("click", clearAll);
+
+  // O catálogo é carregado de forma assíncrona; reaplica busca e filtros quando novos cards chegam.
+  const observer = new MutationObserver(mutations => {
+    if (mutations.some(mutation => [...mutation.addedNodes, ...mutation.removedNodes].some(node =>
+      node.nodeType === 1 && (node.matches?.(".catalog-product") || node.querySelector?.(".catalog-product"))))) {
+      currentPage = 1;
+      apply();
+    }
   });
-  observer.observe(grid,{childList:true});
+  observer.observe(grid, {childList:true});
+
+  // O script antigo também escuta categorias/loja. Este renderizador passa a ser a fonte única
+  // de visibilidade e paginação, evitando conflito entre os dois estados.
+  window.renderCatalog = apply;
   apply();
 })();
