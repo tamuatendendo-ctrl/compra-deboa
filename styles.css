@@ -218,12 +218,11 @@
 @media(max-width:420px){.smart-search-filters{grid-template-columns:1fr}}
 
 
-/* Recorte real apenas nas imagens que possuem moldura preta embutida.
-   Remove o padding interno e amplia a foto dentro da área com overflow:hidden,
-   para recortar a borda da imagem-fonte sem alterar o card. */
-.catalog-grid .product-image-area .real-product-image--crop-frame{
-  width: calc(100% + 24px);
-  height: calc(100% + 24px);
+/* Recorte leve e uniforme das fotos de catálogo para remover molduras
+   pretas que vêm embutidas nas imagens dos marketplaces. */
+.catalog-grid .product-image-area .real-product-image{
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
   max-width: none;
   max-height: none;
   min-height: 0;
