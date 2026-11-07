@@ -53,6 +53,10 @@ async function loadShopeeCatalog() {
 
       const img = document.createElement("img");
       img.className = "real-product-image";
+      // Algumas fotos da Shopee incluem moldura preta na própria imagem. Recorte visual apenas nos produtos identificados.
+      if (["51505316350", "24489035574"].includes(String(item.id))) {
+        img.classList.add("real-product-image--crop-frame");
+      }
       img.src = imageUrl.href;
       img.alt = item.title;
       img.loading = "lazy";
