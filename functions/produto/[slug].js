@@ -25,8 +25,8 @@ function decodeHtml(value) {
 }
 
 function attr(tag, name) {
-  const match = tag.match(new RegExp(name + "\\s*=\\s*(['"])(.*?)\\1", "i"));
-  return match ? decodeHtml(match[2]) : "";
+  const match = tag.match(new RegExp(name + "\\s*=\\s*[\\\"\\\'](.*?)[\\\"\\\']", "i"));
+  return match ? decodeHtml(match[1]) : "";
 }
 
 function extractProducts(html) {
