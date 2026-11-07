@@ -1,6 +1,6 @@
 /* URLs compartilháveis de produtos — Compra de Boa
-   URLs no formato compradeboa.com/#produto=slug.
-   O hash permite deep-link sem configuração de rotas no Cloudflare Pages. */
+   URLs /produto/slug permitem que WhatsApp e outras redes leiam Open Graph específico.
+   A Cloudflare Pages Function fornece os metadados e encaminha visitantes ao catálogo. */
 (() => {
   const grid = document.querySelector(".catalog-grid");
   if (!grid) return;
@@ -57,15 +57,12 @@
         const url = makeProductURL(card);
         const shareData = { title: getTitle(card), text: "Olha esse achado no Compra de Boa:", url };
         try {
-          if (navigator.share) {
-            await navigator.share(shareData);
-          } else if (navigator.clipboard?.writeText) {
+          if (navigator.share) await navigator.share(shareData);
+          else if (navigator.clipboard?.writeText) {
             await navigator.clipboard.writeText(url);
             shareButton.textContent = "Link copiado!";
             setTimeout(() => { shareButton.textContent = "Compartilhar produto"; }, 1800);
-          } else {
-            window.prompt("Copie o link do produto:", url);
-          }
+          } else window.prompt("Copie o link do produto:", url);
         } catch (error) {
           if (error?.name !== "AbortError") window.prompt("Copie o link do produto:", url);
         }
@@ -77,16 +74,15 @@
   }
 
   function makeProductURL(card) {
-    const url = new URL(window.location.href);
-    url.hash = "produto=" + encodeURIComponent(getSlug(card));
-    return url.href;
+    return new URL("/produto/" + encodeURIComponent(getSlug(card)), window.location.origin).href;
   }
 
   function openProduct(card, updateURL) {
     if (!card) return;
     if (updateURL) {
-      const nextURL = makeProductURL(card);
-      if (window.location.href !== nextURL) history.pushState({ productSlug: getSlug(card) }, "", nextURL);
+      const nextURL = new URL(window.location.href);
+      nextURL.hash = "produto=" + encodeURIComponent(getSlug(card));
+      if (window.location.href !== nextURL.href) history.pushState({ productSlug: getSlug(card) }, "", nextURL.href);
     }
     document.querySelectorAll(".product-share-target").forEach((item) => item.classList.remove("product-share-target"));
     card.hidden = false;
