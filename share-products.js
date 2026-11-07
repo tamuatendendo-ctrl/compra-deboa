@@ -35,12 +35,12 @@
       element.setAttribute("aria-label", "Abrir link compartilhável: " + getTitle(card));
       element.addEventListener("click", (event) => {
         if (event.target.closest("a,button")) return;
-        openProduct(card, true);
+        openProduct(card);
       });
       element.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          openProduct(card, true);
+          openProduct(card);
         }
       });
     });
@@ -54,7 +54,12 @@
       shareButton.addEventListener("click", async (event) => {
         event.preventDefault();
         event.stopPropagation();
-        const url = makeProductURL(card);
+        const affiliateButton = card.querySelector(".offer-button[href]");
+        const url = affiliateButton?.href;
+        if (!url) {
+          window.alert("Link de afiliado não encontrado para este produto.");
+          return;
+        }
         const shareData = { title: getTitle(card), text: "Olha esse achado no Compra de Boa:", url };
         try {
           if (navigator.share) await navigator.share(shareData);
@@ -73,38 +78,13 @@
     }
   }
 
-  function makeProductURL(card) {
-    return new URL("/produto/" + encodeURIComponent(getSlug(card)), window.location.origin).href;
-  }
-
-  function openProduct(card, updateURL) {
+  function openProduct(card) {
     if (!card) return;
-    if (updateURL) {
-      const nextURL = new URL(window.location.href);
-      nextURL.hash = "produto=" + encodeURIComponent(getSlug(card));
-      if (window.location.href !== nextURL.href) history.pushState({ productSlug: getSlug(card) }, "", nextURL.href);
-    }
     document.querySelectorAll(".product-share-target").forEach((item) => item.classList.remove("product-share-target"));
     card.hidden = false;
     card.classList.remove("search-hidden");
     card.classList.add("product-share-target");
     card.scrollIntoView({ behavior: "smooth", block: "center" });
-  }
-
-  function findBySlug(slug) {
-    return Array.from(grid.querySelectorAll(".catalog-product")).find((card) => getSlug(card) === slug);
-  }
-
-  function handleCurrentURL() {
-    const match = window.location.hash.match(/^#produto=(.+)$/);
-    if (!match) {
-      document.querySelectorAll(".product-share-target").forEach((item) => item.classList.remove("product-share-target"));
-      return;
-    }
-    let slug;
-    try { slug = decodeURIComponent(match[1]); } catch (_) { slug = match[1]; }
-    const card = findBySlug(slug);
-    if (card) openProduct(card, false);
   }
 
   const style = document.createElement("style");
@@ -121,7 +101,6 @@
 
   function prepareAll() {
     grid.querySelectorAll(".catalog-product").forEach(prepareCard);
-    handleCurrentURL();
   }
 
   prepareAll();
@@ -130,6 +109,4 @@
   });
   observer.observe(grid, { childList: true });
 
-  window.addEventListener("popstate", handleCurrentURL);
-  window.addEventListener("hashchange", handleCurrentURL);
 })();
