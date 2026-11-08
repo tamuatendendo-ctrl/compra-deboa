@@ -405,3 +405,21 @@
     margin:18px 0 8px!important;
   }
 }
+
+/* Match YouTube label typography to Instagram and TikTok footer labels */
+.footer-social-links > .footer-youtube,
+.footer-social-links > .footer-youtube span{
+  font-family:inherit!important;
+  font-size:14px!important;
+  font-weight:900!important;
+  line-height:1.4!important;
+  color:var(--purple)!important;
+  letter-spacing:normal!important;
+  text-decoration:none!important;
+}
+.footer-social-links > .footer-youtube span{
+  font-family:inherit!important;
+  font-size:14px!important;
+  font-weight:900!important;
+  line-height:1.4!important;
+}
