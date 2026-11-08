@@ -267,3 +267,32 @@
 @media(max-width:800px){
   .footer>.footer-youtube{display:flex!important;position:static!important;margin:12px 0 8px!important;}
 }
+
+/* Final footer alignment: social links share one left edge */
+@media(min-width:801px){
+  .footer>.footer-instagram,
+  .footer>.footer-tiktok,
+  .footer>.footer-youtube{
+    justify-self:start!important;
+    align-self:start!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+}
+.footer>.footer-instagram,
+.footer>.footer-tiktok,
+.footer>.footer-youtube{
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:9px!important;
+}
+.footer>.footer-instagram svg,
+.footer>.footer-tiktok svg,
+.footer>.footer-youtube svg{
+  width:24px!important;
+  height:24px!important;
+  min-width:24px!important;
+  max-width:24px!important;
+  flex:0 0 24px!important;
+}
