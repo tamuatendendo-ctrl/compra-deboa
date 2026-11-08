@@ -19,13 +19,15 @@
   .footer-tiktok{display:flex!important;}
 }
 
-/* Robust footer layout: Instagram aligned to the right on desktop */
+/* Footer: social links stacked on the right on desktop */
 @media(min-width:801px){
   .footer{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:24px;align-items:start;}
   .footer>.brand-footer{grid-column:1;grid-row:1;}
   .footer>p{grid-column:1;grid-row:2;margin:10px 0 0;}
-  .footer>.footer-instagram{position:static!important;grid-column:2;grid-row:1 / span 2;align-self:center;justify-self:end;margin:0!important;}
-  .footer>.footer-bottom{grid-column:1 / -1;grid-row:3;}
+  .footer>.footer-instagram{position:static!important;grid-column:2;grid-row:1;align-self:start;justify-self:end;margin:0!important;}
+  .footer>.footer-tiktok{grid-column:2;grid-row:2;align-self:start;justify-self:end;margin:0!important;}
+  .footer>.footer-youtube{grid-column:2;grid-row:3;align-self:start;justify-self:end;margin:0!important;}
+  .footer>.footer-bottom{grid-column:1 / -1;grid-row:4;}
 }
 @media(max-width:800px){
   .footer{display:block;}
@@ -232,3 +234,6 @@
   flex: 0 0 auto;
   transform: none;
 }
+
+.footer-youtube{top:114px!important;}
+@media(max-width:800px){.footer-youtube{display:flex!important;}}
