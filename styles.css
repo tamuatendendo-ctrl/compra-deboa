@@ -339,3 +339,69 @@
   .footer>.footer-tiktok{grid-column:2!important;grid-row:2!important;}
   .footer>.footer-youtube{grid-column:2!important;grid-row:3!important;}
 }
+
+/* Stable footer social stack: one wrapper controls all three rows */
+.footer-social-links{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  gap:12px!important;
+  width:max-content!important;
+  max-width:100%!important;
+  margin:0!important;
+  padding:0!important;
+}
+.footer-social-links > .footer-instagram,
+.footer-social-links > .footer-tiktok,
+.footer-social-links > .footer-youtube{
+  position:static!important;
+  inset:auto!important;
+  display:grid!important;
+  grid-template-columns:24px max-content!important;
+  align-items:center!important;
+  justify-content:start!important;
+  justify-self:start!important;
+  align-self:flex-start!important;
+  width:max-content!important;
+  max-width:100%!important;
+  min-height:24px!important;
+  margin:0!important;
+  padding:0!important;
+  gap:9px!important;
+  transform:none!important;
+}
+.footer-social-links > a > svg{
+  grid-column:1!important;
+  grid-row:1!important;
+  display:block!important;
+  width:24px!important;
+  height:24px!important;
+  min-width:24px!important;
+  max-width:24px!important;
+  margin:0!important;
+}
+.footer-social-links > a > span{
+  grid-column:2!important;
+  grid-row:1!important;
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+  line-height:24px!important;
+  white-space:nowrap!important;
+  text-align:left!important;
+}
+@media(min-width:801px){
+  .footer-social-links{
+    grid-column:2!important;
+    grid-row:1 / span 3!important;
+    justify-self:start!important;
+    align-self:start!important;
+    margin:0!important;
+  }
+}
+@media(max-width:800px){
+  .footer-social-links{
+    margin:18px 0 8px!important;
+  }
+}
