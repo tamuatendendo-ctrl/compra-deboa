@@ -423,3 +423,19 @@
   font-weight:900!important;
   line-height:1.4!important;
 }
+
+
+/* Ajuste final do YouTube no rodapé: alinhamento óptico e hover laranja */
+.footer-social-links > .footer-youtube > svg{
+  transform:translateY(-3px)!important;
+}
+.footer-social-links > .footer-youtube:hover,
+.footer-social-links > .footer-youtube:hover span,
+.footer-social-links > .footer-youtube:focus-visible,
+.footer-social-links > .footer-youtube:focus-visible span{
+  color:var(--orange)!important;
+}
+.footer-social-links > .footer-youtube:hover > svg,
+.footer-social-links > .footer-youtube:focus-visible > svg{
+  color:var(--orange)!important;
+}
