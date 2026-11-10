@@ -26,6 +26,7 @@
     "casa":["casa","decoracao","cozinha","organizacao","lar"],
     "dia-a-dia":["dia-a-dia","utilidades","dia a dia"],
     "bem-estar":["bem-estar","beleza","fitness","saude"],
+    "alimentos-bebidas":["alimentos-bebidas","alimentos e bebidas","bebidas","whisky"],
     "moda":["moda"],
     "natal":["natal"],
     "black-friday":["black-friday","black friday","blackfriday"]
