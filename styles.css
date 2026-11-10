@@ -563,3 +563,7 @@
 .catalog-product:has(.black-friday-product-tag) .product-image-area .offer-discount{
   left:auto!important;right:10px!important
 }
+
+
+/* Categoria Alimentos e Bebidas */
+.category-card.food{background:#fff0df}
