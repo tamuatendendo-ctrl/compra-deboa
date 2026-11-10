@@ -17,7 +17,26 @@
   const resetFilters = document.querySelector("#reset-filters");
   const pageSize = 16;
 
-  let activeCategory = "all";
+  const validCategories = new Set(["all","eletronicos","casa","dia-a-dia","bem-estar","moda","alimentos-bebidas","natal","black-friday"]);
+  const categoryParam = "categoria";
+
+  function readCategoryFromUrl() {
+    const value = new URL(window.location.href).searchParams.get(categoryParam) || "all";
+    return validCategories.has(value) ? value : "all";
+  }
+
+  function writeCategoryToUrl(category, mode = "push") {
+    const url = new URL(window.location.href);
+    if (category === "all") url.searchParams.delete(categoryParam);
+    else url.searchParams.set(categoryParam, category);
+    const nextUrl = url.pathname + url.search + url.hash;
+    const currentUrl = window.location.pathname + window.location.search + window.location.hash;
+    if (nextUrl === currentUrl) return;
+    if (mode === "replace") window.history.replaceState({ category }, "", nextUrl);
+    else window.history.pushState({ category }, "", nextUrl);
+  }
+
+  let activeCategory = readCategoryFromUrl();
   let currentPage = 1;
   let applying = false;
 
@@ -141,14 +160,17 @@
     return score;
   }
 
-  function setCategory(category) {
-    activeCategory = category || "all";
+  function setCategory(category, options = {}) {
+    const nextCategory = validCategories.has(category) ? category : "all";
+    const changed = nextCategory !== activeCategory;
+    activeCategory = nextCategory;
     currentPage = 1;
     categoryButtons.forEach(button => {
       const active = button.dataset.category === activeCategory;
       if (button.classList.contains("filter-pill")) button.classList.toggle("active", active);
       button.setAttribute("aria-pressed", String(active));
     });
+    if (options.updateUrl !== false && changed) writeCategoryToUrl(activeCategory, options.historyMode || "push");
     apply();
   }
 
@@ -302,5 +324,10 @@
   // O script antigo também escuta categorias/loja. Este renderizador passa a ser a fonte única
   // de visibilidade e paginação, evitando conflito entre os dois estados.
   window.renderCatalog = apply;
-  apply();
+
+  // Abre a categoria indicada na URL e acompanha navegação voltar/avançar do navegador.
+  setCategory(activeCategory, { updateUrl: false });
+  window.addEventListener("popstate", () => {
+    setCategory(readCategoryFromUrl(), { updateUrl: false });
+  });
 })();
