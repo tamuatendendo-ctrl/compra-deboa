@@ -42,9 +42,9 @@ async function loadShopeeCatalog() {
 
       const card = document.createElement("article");
       card.className = "offer-card catalog-product";
-      card.dataset.categories = item.category || "utilidades";
+      card.dataset.categories = [item.category || "utilidades", ...(item.blackFriday ? ["black-friday"] : [])].join(" ");
       const store = item.store || "shopee";
-      const storeLabel = store === "mercado-livre" ? "Mercado Livre" : "Shopee";
+      const storeLabel = store === "mercado-livre" ? "Mercado Livre" : store === "amazon" ? "Amazon" : "Shopee";
       card.dataset.store = store;
 
       const imageArea = document.createElement("div");
@@ -62,6 +62,13 @@ async function loadShopeeCatalog() {
       img.loading = "lazy";
       img.decoding = "async";
       imageArea.appendChild(img);
+
+      if (item.blackFriday) {
+        const campaignBadge = document.createElement("span");
+        campaignBadge.className = "black-friday-product-tag";
+        campaignBadge.textContent = "BLACK FRIDAY";
+        imageArea.appendChild(campaignBadge);
+      }
 
       if (Number(item.discount) > 0) {
         const badge = document.createElement("span");
