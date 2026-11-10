@@ -3571,5 +3571,19 @@
     "category": "dia-a-dia",
     "categoryLabel": "Dia a dia",
     "store": "shopee"
+  },
+  {
+    "id": "B0iEhB8nk",
+    "title": "Micro-ondas Philco 20L Branco Pintura Limpa Fácil PMO24B 127V",
+    "price": 370.64,
+    "originalPrice": 612,
+    "discount": 39,
+    "rating": 4.2,
+    "image": "https://http2.mlstatic.com/D_NQ_NP_685448-MLA113958811422_072026-O.webp",
+    "affiliateUrl": "https://link.amazon/B0iEhB8nk",
+    "category": "casa",
+    "categoryLabel": "Casa e decoração",
+    "store": "amazon",
+    "blackFriday": true
   }
 ]
