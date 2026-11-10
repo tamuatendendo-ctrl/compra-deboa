@@ -3739,5 +3739,19 @@
     "categoryLabel": "Eletrônicos",
     "store": "amazon",
     "blackFriday": true
+  },
+  {
+    "id": "B05NJ5Lq2",
+    "title": "Integralmedica Creatina Hardcore 100% Pura e Monohidratada 300g",
+    "price": 35.8,
+    "originalPrice": 41.44,
+    "discount": 13,
+    "rating": 4.7,
+    "image": "https://precoafiado.com.br/produtos/integralmedica-creatina-hardcore-300g.webp",
+    "affiliateUrl": "https://link.amazon/B05NJ5Lq2",
+    "category": "bem-estar",
+    "categoryLabel": "Saúde e bem-estar",
+    "store": "amazon",
+    "blackFriday": true
   }
 ]
