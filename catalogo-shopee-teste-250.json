@@ -3599,5 +3599,19 @@
     "categoryLabel": "Eletrônicos",
     "store": "amazon",
     "blackFriday": true
+  },
+  {
+    "id": "B095q5PHV",
+    "title": "Apple iPhone 17 de 256 GB — Branco",
+    "price": 5683.23,
+    "originalPrice": 7999,
+    "discount": 29,
+    "rating": 4.7,
+    "image": "https://www.afbshop.de/media/a1/4f/0a/1764230521/apple-iphone-17-256gb-2025-white-smartphone-backfrontalso.jpg?ts=1764230521",
+    "affiliateUrl": "https://link.amazon/B095q5PHV",
+    "category": "eletronicos",
+    "categoryLabel": "Eletrônicos",
+    "store": "amazon",
+    "blackFriday": true
   }
 ]
