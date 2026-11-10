@@ -3753,5 +3753,19 @@
     "categoryLabel": "Saúde e bem-estar",
     "store": "amazon",
     "blackFriday": true
+  },
+  {
+    "id": "B06vKY07o",
+    "title": "Cadeira Ergonômica Gamer Python Fly com Apoio para os Pés — Branca",
+    "price": 328.06,
+    "originalPrice": 393.51,
+    "discount": 17,
+    "rating": 4.5,
+    "image": "https://down-br.img.susercontent.com/file/sg-11134201-7rd63-lwqb4n8s9ldie2",
+    "affiliateUrl": "https://link.amazon/B06vKY07o",
+    "category": "casa",
+    "categoryLabel": "Casa e decoração",
+    "store": "amazon",
+    "blackFriday": true
   }
 ]
