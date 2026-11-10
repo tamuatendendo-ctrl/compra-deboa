@@ -3697,5 +3697,19 @@
     "categoryLabel": "Eletrônicos",
     "store": "amazon",
     "blackFriday": true
+  },
+  {
+    "id": "B07Omkj5S",
+    "title": "Apple Watch SE 3 GPS 40 mm — Alumínio Luz das Estrelas, Pulseira Esportiva P/M",
+    "price": 1979.65,
+    "originalPrice": 3299,
+    "discount": 40,
+    "rating": 4.8,
+    "image": "https://estore.ua/ua/media/catalog/product/a/p/apple-watch-se-3_1__1.jpeg",
+    "affiliateUrl": "https://link.amazon/B07Omkj5S",
+    "category": "eletronicos",
+    "categoryLabel": "Eletrônicos",
+    "store": "amazon",
+    "blackFriday": true
   }
 ]
