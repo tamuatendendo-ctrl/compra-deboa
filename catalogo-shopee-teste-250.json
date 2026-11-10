@@ -3613,5 +3613,33 @@
     "categoryLabel": "Eletrônicos",
     "store": "amazon",
     "blackFriday": true
+  },
+  {
+    "id": "B080jBY3W",
+    "title": "Old Parr Whisky 12 Anos 1L",
+    "price": 108.8,
+    "originalPrice": 157.9,
+    "discount": 31,
+    "rating": 4.8,
+    "image": "https://carrefourbrfood.vtexassets.com/arquivos/ids/205425644/whisky-escoces-blended-12-anos-grand-old-parr-garrafa-1l-1.jpg?v=638967304549830000",
+    "affiliateUrl": "https://link.amazon/B080jBY3W",
+    "category": "alimentos-bebidas",
+    "categoryLabel": "Alimentos e bebidas",
+    "store": "amazon",
+    "blackFriday": true
+  },
+  {
+    "id": "B00iDFJSa",
+    "title": "Whisky Johnnie Walker Red Label 1L",
+    "price": 69.9,
+    "originalPrice": 115.9,
+    "discount": 39,
+    "rating": 4.8,
+    "image": "https://redemix.vteximg.com.br/arquivos/ids/206884-1000-1000/5000267013602.jpg?v=638350592181170000",
+    "affiliateUrl": "https://link.amazon/B00iDFJSa",
+    "category": "alimentos-bebidas",
+    "categoryLabel": "Alimentos e bebidas",
+    "store": "amazon",
+    "blackFriday": true
   }
 ]
