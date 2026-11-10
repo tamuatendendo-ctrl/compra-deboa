@@ -29,10 +29,10 @@
     const url = new URL(window.location.href);
     if (category === "all") url.searchParams.delete(categoryParam);
     else url.searchParams.set(categoryParam, category);
-    // Links compartilháveis devem abrir diretamente na vitrine já filtrada.
-    url.hash = "ofertas";
-    const nextUrl = url.pathname + url.search + url.hash;
-    const currentUrl = window.location.pathname + window.location.search + window.location.hash;
+    // Mantém a URL amigável: o deslocamento até os produtos é feito via JavaScript.
+    url.hash = "";
+    const nextUrl = url.pathname + url.search;
+    const currentUrl = window.location.pathname + window.location.search;
     if (nextUrl === currentUrl) return;
     if (mode === "replace") window.history.replaceState({ category }, "", nextUrl);
     else window.history.pushState({ category }, "", nextUrl);
