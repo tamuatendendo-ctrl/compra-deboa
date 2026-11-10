@@ -522,3 +522,18 @@
   .black-friday-banner .black-friday-action{width:100%!important;justify-content:space-between!important}
   .black-friday-banner .black-friday-stamp{width:66px!important;height:66px!important}
 }
+
+
+/* Card BLACK FRIDAY na vitrine de categorias */
+.category-card.black-friday-category{
+  background:linear-gradient(135deg,#050505 0%,#171717 72%,#2a1608 100%)!important;
+  color:#fff!important;border:1px solid #3a2a1b!important;
+  box-shadow:0 10px 26px rgba(0,0,0,.16)!important
+}
+.category-card.black-friday-category .category-title,
+.category-card.black-friday-category .category-subtitle{color:#fff!important}
+.category-card.black-friday-category .category-subtitle{opacity:.82!important}
+.category-card.black-friday-category .category-arrow{color:#ff8a25!important}
+.category-card.black-friday-category:hover{
+  box-shadow:0 14px 32px rgba(0,0,0,.24),inset 0 0 0 1px #ff8a25!important
+}
