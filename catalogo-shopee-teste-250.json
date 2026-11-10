@@ -3669,5 +3669,19 @@
     "categoryLabel": "Casa e decoração",
     "store": "mercado-livre",
     "blackFriday": true
+  },
+  {
+    "id": "meli-verunto-compressor-ar-portatil-1V7R8Gn",
+    "title": "Bomba de Ar Portátil Verunto 150 PSI — Sem Fio, LED, Bateria 4000 mAh",
+    "price": 59.99,
+    "originalPrice": 157.98,
+    "discount": 62,
+    "rating": 4.8,
+    "image": "https://blugshop.com/wp-content/uploads/2026/10/D_NQ_NP_2X_695590-MLA110946316826_052026-F-1024x1024.webp",
+    "affiliateUrl": "https://meli.la/1V7R8Gn",
+    "category": "dia-a-dia",
+    "categoryLabel": "Dia a dia",
+    "store": "mercado-livre",
+    "blackFriday": true
   }
 ]
