@@ -3683,5 +3683,19 @@
     "categoryLabel": "Dia a dia",
     "store": "mercado-livre",
     "blackFriday": true
+  },
+  {
+    "id": "B0g7Lc7YU",
+    "title": "Monitor Gamer LG UltraGear 27” IPS, 144Hz, 1ms, Full HD, HDR10, G-SYNC e FreeSync — 27G411B",
+    "price": 692,
+    "originalPrice": 849,
+    "discount": 18,
+    "rating": 4.8,
+    "image": "https://www.lg.com/content/dam/channel/wcms/br/images/produtos/it/24g411a-b-awzm/gallery/galeria-v2/CARD-1-2010x1334.jpg/jcr%3Acontent/renditions/thum-1600x1062.jpeg?w=800",
+    "affiliateUrl": "https://link.amazon/B0g7Lc7YU",
+    "category": "eletronicos",
+    "categoryLabel": "Eletrônicos",
+    "store": "amazon",
+    "blackFriday": true
   }
 ]
