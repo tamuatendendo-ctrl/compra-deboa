@@ -107,7 +107,7 @@ async function loadShopeeCatalog() {
 
       const disclaimer = document.createElement("p");
       disclaimer.className = "offer-disclaimer";
-      disclaimer.textContent = "Preço e disponibilidade podem mudar. Confira as condições no " + storeLabel + ".";
+      disclaimer.textContent = item.category === "alimentos-bebidas" ? "Venda proibida para menores de 18 anos. Beba com moderação. Preço e disponibilidade podem mudar." : "Preço e disponibilidade podem mudar. Confira as condições no " + storeLabel + ".";
       info.appendChild(disclaimer);
 
       const link = document.createElement("a");
