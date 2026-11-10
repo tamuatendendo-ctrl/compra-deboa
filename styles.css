@@ -537,3 +537,15 @@
 .category-card.black-friday-category:hover{
   box-shadow:0 14px 32px rgba(0,0,0,.24),inset 0 0 0 1px #ff8a25!important
 }
+
+
+/* Refinamento do banner Black Friday: frase em linha única e sem CTA redundante */
+.black-friday-banner{justify-content:flex-start!important}
+.black-friday-banner .black-friday-copy{flex:1 1 100%!important;max-width:none!important;width:100%!important}
+.black-friday-banner .black-friday-copy p{
+  max-width:none!important;width:100%!important;white-space:nowrap!important;
+  font-size:14px!important;letter-spacing:-.2px!important
+}
+@media(max-width:700px){
+  .black-friday-banner .black-friday-copy p{white-space:normal!important}
+}
