@@ -29,6 +29,8 @@
     const url = new URL(window.location.href);
     if (category === "all") url.searchParams.delete(categoryParam);
     else url.searchParams.set(categoryParam, category);
+    // Links compartilháveis devem abrir diretamente na vitrine já filtrada.
+    url.hash = "ofertas";
     const nextUrl = url.pathname + url.search + url.hash;
     const currentUrl = window.location.pathname + window.location.search + window.location.hash;
     if (nextUrl === currentUrl) return;
@@ -288,7 +290,15 @@
     applying = false;
   }
 
-  categoryButtons.forEach(button => button.addEventListener("click", () => setCategory(button.dataset.category)));
+  categoryButtons.forEach(button => button.addEventListener("click", () => {
+    setCategory(button.dataset.category);
+    if (button.classList.contains("category-filter-card")) {
+      // Ao escolher um card da seção de categorias, leva o visitante aos produtos filtrados.
+      requestAnimationFrame(() => {
+        document.querySelector("#ofertas")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }));
   storeSelect?.addEventListener("change", () => { currentPage = 1; apply(); });
   [input, minInput, maxInput, discountOnly, sortSelect].forEach(element => {
     if (!element) return;
