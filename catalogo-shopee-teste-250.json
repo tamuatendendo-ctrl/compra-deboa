@@ -3655,5 +3655,19 @@
     "categoryLabel": "Moda e acessórios",
     "store": "mercado-livre",
     "blackFriday": true
+  },
+  {
+    "id": "meli-tapete-felpudo-fucsia-34kn168",
+    "title": "Tapete Para Quarto Felpudo 1,40 x 2,00m — Sala Peludo, Cor Fúcsia, Pelo Alto",
+    "price": 59.9,
+    "originalPrice": 115.9,
+    "discount": 48,
+    "rating": 4.6,
+    "image": "https://tecibomdecor.cdn.magazord.com.br/img/2021/05/produto/901/tapete-corttex-moscou-rosa-pink-tecibom-decor.jpg?ims=800x800",
+    "affiliateUrl": "https://meli.la/34kn168",
+    "category": "casa",
+    "categoryLabel": "Casa e decoração",
+    "store": "mercado-livre",
+    "blackFriday": true
   }
 ]
