@@ -549,3 +549,17 @@
 @media(max-width:700px){
   .black-friday-banner .black-friday-copy p{white-space:normal!important}
 }
+
+
+/* Etiqueta Black Friday nos cards — preto sólido e texto branco */
+.black-friday-product-tag{
+  position:absolute;top:10px;left:10px;z-index:4;
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:7px 10px;border-radius:6px;
+  background:#000!important;color:#fff!important;
+  font-size:10px;font-weight:900;line-height:1;
+  letter-spacing:.35px;white-space:nowrap
+}
+.catalog-product:has(.black-friday-product-tag) .product-image-area .offer-discount{
+  left:auto!important;right:10px!important
+}
