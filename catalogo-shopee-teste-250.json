@@ -3585,5 +3585,19 @@
     "categoryLabel": "Casa e decoração",
     "store": "amazon",
     "blackFriday": true
+  },
+  {
+    "id": "B0dDLDHU4",
+    "title": "Impressora 3D Bambu Lab A1 + AMS Lite (Combo) — A1C, Bivolt",
+    "price": 4049,
+    "originalPrice": 4999,
+    "discount": 19,
+    "rating": 4.4,
+    "image": "https://m.media-amazon.com/images/I/71x5MOLyifL._AC_SL1500_.jpg",
+    "affiliateUrl": "https://link.amazon/B0dDLDHU4",
+    "category": "eletronicos",
+    "categoryLabel": "Eletrônicos",
+    "store": "amazon",
+    "blackFriday": true
   }
 ]
