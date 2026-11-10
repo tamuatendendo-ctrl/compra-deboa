@@ -3641,5 +3641,19 @@
     "categoryLabel": "Alimentos e bebidas",
     "store": "amazon",
     "blackFriday": true
+  },
+  {
+    "id": "meli-puma-flyer-runner-mesh-feminino-1HLrqcn",
+    "title": "Tênis Flyer Runner Mesh Feminino Puma — Rosa, Preto e Branco",
+    "price": 179.99,
+    "originalPrice": 249.99,
+    "discount": 28,
+    "rating": 4.9,
+    "image": "https://images.puma.com/image/upload/f_auto%2Cq_auto%2Cw_600%2Cb_rgb%3AFAFAFA/global/309693/08/sv01/fnd/BRA/fmt/png",
+    "affiliateUrl": "https://meli.la/1HLrqcn",
+    "category": "moda",
+    "categoryLabel": "Moda e acessórios",
+    "store": "mercado-livre",
+    "blackFriday": true
   }
 ]
