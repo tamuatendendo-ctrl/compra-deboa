@@ -27,7 +27,8 @@
     "dia-a-dia":["dia-a-dia","utilidades","dia a dia"],
     "bem-estar":["bem-estar","beleza","fitness","saude"],
     "moda":["moda"],
-    "natal":["natal"]
+    "natal":["natal"],
+    "black-friday":["black-friday","black friday","blackfriday"]
   };
 
   const normalize = (value) => String(value || "")
