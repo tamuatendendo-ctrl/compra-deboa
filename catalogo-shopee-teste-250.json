@@ -3711,5 +3711,19 @@
     "categoryLabel": "Eletrônicos",
     "store": "amazon",
     "blackFriday": true
+  },
+  {
+    "id": "B06hOy6rG",
+    "title": "Philips OneBlade Intimate QP1924/10 — Aparador de Pelos Íntimos, SkinProtect, Branco",
+    "price": 129.9,
+    "originalPrice": 209.9,
+    "discount": 38,
+    "rating": 4.6,
+    "image": "https://i5.walmartimages.com/asr/0b89a360-fbbb-415a-b4f8-f06cba59d70a.e846f2ef0cbaa93c08cd4af7888eb227.jpeg",
+    "affiliateUrl": "https://link.amazon/B06hOy6rG",
+    "category": "bem-estar",
+    "categoryLabel": "Saúde e bem-estar",
+    "store": "amazon",
+    "blackFriday": true
   }
 ]
