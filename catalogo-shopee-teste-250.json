@@ -3767,5 +3767,19 @@
     "categoryLabel": "Casa e decoração",
     "store": "amazon",
     "blackFriday": true
+  },
+  {
+    "id": "B08Fx8jbn",
+    "title": "WAP Robô Aspirador Robot W90 3 em 1 — 250 ml, Bivolt, Sistema Antiqueda",
+    "price": 299.9,
+    "originalPrice": 549.9,
+    "discount": 45,
+    "rating": 4.3,
+    "image": "https://m.media-amazon.com/images/I/41vCiJqoLXL._SL500_.jpg",
+    "affiliateUrl": "https://link.amazon/B08Fx8jbn",
+    "category": "casa",
+    "categoryLabel": "Casa e decoração",
+    "store": "amazon",
+    "blackFriday": true
   }
 ]
