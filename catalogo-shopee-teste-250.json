@@ -3809,5 +3809,19 @@
     "categoryLabel": "Moda e acessórios",
     "store": "mercado-livre",
     "blackFriday": true
+  },
+  {
+    "id": "B08N5AUhP",
+    "title": "Creatina Monohidratada DUX Human Health Sem Sabor 300g",
+    "price": 45.47,
+    "originalPrice": 55.15,
+    "discount": 18,
+    "rating": 4.7,
+    "image": "https://cf.shopee.com.br/file/br-11134207-7r98o-m0a94pljwe3tef",
+    "affiliateUrl": "https://link.amazon/B08N5AUhP",
+    "category": "fitness",
+    "categoryLabel": "Fitness e saúde",
+    "store": "amazon",
+    "blackFriday": true
   }
 ]
