@@ -3795,5 +3795,19 @@
     "categoryLabel": "Eletrônicos",
     "store": "amazon",
     "blackFriday": true
+  },
+  {
+    "id": "MLB4085597457",
+    "title": "Camiseta Light T-shirt Insider Masculino — Preta",
+    "price": 55,
+    "originalPrice": 189,
+    "discount": 71,
+    "rating": 4.8,
+    "image": "https://http2.mlstatic.com/D_Q_NP_2X_672961-MLB85730797238_062025-AB.jpg",
+    "affiliateUrl": "https://meli.la/21LiGb4",
+    "category": "moda",
+    "categoryLabel": "Moda e acessórios",
+    "store": "mercado-livre",
+    "blackFriday": true
   }
 ]
