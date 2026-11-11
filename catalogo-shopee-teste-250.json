@@ -3849,5 +3849,17 @@
     "categoryLabel": "Casa e decoração",
     "store": "shopee",
     "blackFriday": true
+  },
+  {
+    "id": "meli-cama-infantil-montessoriana-azul-2FJmBdu",
+    "title": "Cama Infantil Montessoriana Azul Estofada com Colchão Solteiro e Laterais de Proteção Buno Mobilia",
+    "price": 648.96,
+    "rating": 5,
+    "image": "https://http2.mlstatic.com/D_NQ_NP_2X_830683-MLA111526912083_052026-F.webp",
+    "affiliateUrl": "https://meli.la/2FJmBdu",
+    "category": "casa",
+    "categoryLabel": "Casa e decoração",
+    "store": "mercado-livre",
+    "blackFriday": true
   }
 ]
