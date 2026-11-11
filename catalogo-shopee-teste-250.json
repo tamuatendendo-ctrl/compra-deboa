@@ -3835,6 +3835,7 @@
     "affiliateUrl": "https://meli.la/2yLmFLk",
     "category": "moda",
     "categoryLabel": "Moda e acessórios",
-    "store": "mercado-livre"
+    "store": "mercado-livre",
+    "blackFriday": true
   }
 ]
