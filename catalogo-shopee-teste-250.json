@@ -3823,5 +3823,18 @@
     "categoryLabel": "Fitness e saúde",
     "store": "amazon",
     "blackFriday": true
+  },
+  {
+    "id": "meli-calvin-klein-ck-one-200ml-2yLmFLk",
+    "title": "Perfume Calvin Klein CK One Eau de Toilette 200ml",
+    "price": 190,
+    "originalPrice": 699,
+    "discount": 72,
+    "rating": 4.7,
+    "image": "https://product-data.raiadrogasil.io/images/16835631.webp",
+    "affiliateUrl": "https://meli.la/2yLmFLk",
+    "category": "beleza",
+    "categoryLabel": "Beleza e cuidados pessoais",
+    "store": "mercado-livre"
   }
 ]
