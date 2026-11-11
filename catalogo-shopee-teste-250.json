@@ -3781,5 +3781,19 @@
     "categoryLabel": "Casa e decoração",
     "store": "amazon",
     "blackFriday": true
+  },
+  {
+    "id": "B0fcNqH9Q",
+    "title": "Monitor Gamer TCL 25G64 25” QD-Mini LED Full HD 300Hz 1ms HDR 600",
+    "price": 1154.25,
+    "originalPrice": 1799,
+    "discount": 36,
+    "rating": 4.7,
+    "image": "https://lmt-web.mstatic.lv/eshop/41951/3-tcl-25g64.png",
+    "affiliateUrl": "https://link.amazon/B0fcNqH9Q",
+    "category": "eletronicos",
+    "categoryLabel": "Eletrônicos",
+    "store": "amazon",
+    "blackFriday": true
   }
 ]
