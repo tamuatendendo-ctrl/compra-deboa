@@ -567,3 +567,24 @@
 
 /* Categoria Alimentos e Bebidas */
 .category-card.food{background:#fff0df}
+
+
+/* Mobile: etiquetas Black Friday empilhadas e compactas, sem alterar desktop */
+@media (max-width: 800px) {
+  .catalog-product:has(.black-friday-product-tag) .product-image-area .black-friday-product-tag {
+    top: 8px !important;
+    left: 8px !important;
+    padding: 6px 8px !important;
+    font-size: 9px !important;
+    letter-spacing: .25px !important;
+  }
+
+  .catalog-product:has(.black-friday-product-tag) .product-image-area .offer-discount {
+    top: 34px !important;
+    left: 8px !important;
+    right: auto !important;
+    padding: 5px 8px !important;
+    font-size: 9px !important;
+    line-height: 1 !important;
+  }
+}
