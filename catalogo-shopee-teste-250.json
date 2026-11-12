@@ -3861,5 +3861,19 @@
     "categoryLabel": "Casa e decoração",
     "store": "mercado-livre",
     "blackFriday": true
+  },
+  {
+    "id": "MLB4987156527",
+    "title": "Massageador Pescoço Ombro Recarregável Mãozinha Elétrico VLX",
+    "price": 68.53,
+    "originalPrice": 78.32,
+    "discount": 12,
+    "rating": 4.9,
+    "image": "https://yaboow.com/public/upload/product_images/202512171314282770506.jpg",
+    "affiliateUrl": "https://meli.la/1ZcGP5b",
+    "category": "bem-estar",
+    "categoryLabel": "Saúde e bem-estar",
+    "store": "mercado-livre",
+    "blackFriday": true
   }
 ]
